@@ -1,0 +1,12 @@
+E:\ASP.Net\ProjectShop\Shop\Shop.Data\bin\Debug\Shop.Data.dll.config
+E:\ASP.Net\ProjectShop\Shop\Shop.Data\bin\Debug\Shop.Data.dll
+E:\ASP.Net\ProjectShop\Shop\Shop.Data\bin\Debug\Shop.Data.pdb
+E:\ASP.Net\ProjectShop\Shop\Shop.Data\bin\Debug\EntityFramework.dll
+E:\ASP.Net\ProjectShop\Shop\Shop.Data\bin\Debug\EntityFramework.SqlServer.dll
+E:\ASP.Net\ProjectShop\Shop\Shop.Data\bin\Debug\Shop.Common.dll
+E:\ASP.Net\ProjectShop\Shop\Shop.Data\bin\Debug\Shop.Common.pdb
+E:\ASP.Net\ProjectShop\Shop\Shop.Data\bin\Debug\EntityFramework.xml
+E:\ASP.Net\ProjectShop\Shop\Shop.Data\bin\Debug\EntityFramework.SqlServer.xml
+E:\ASP.Net\ProjectShop\Shop\Shop.Data\obj\Debug\Shop.Data.csprojResolveAssemblyReference.cache
+E:\ASP.Net\ProjectShop\Shop\Shop.Data\obj\Debug\Shop.Data.dll
+E:\ASP.Net\ProjectShop\Shop\Shop.Data\obj\Debug\Shop.Data.pdb

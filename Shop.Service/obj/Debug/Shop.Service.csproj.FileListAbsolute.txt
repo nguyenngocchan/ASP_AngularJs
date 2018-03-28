@@ -1,0 +1,11 @@
+E:\ASP.Net\ProjectShop\Shop\Shop.Service\bin\Debug\Shop.Service.dll
+E:\ASP.Net\ProjectShop\Shop\Shop.Service\bin\Debug\Shop.Service.pdb
+E:\ASP.Net\ProjectShop\Shop\Shop.Service\bin\Debug\Shop.Common.dll
+E:\ASP.Net\ProjectShop\Shop\Shop.Service\bin\Debug\Shop.Data.dll
+E:\ASP.Net\ProjectShop\Shop\Shop.Service\bin\Debug\Shop.Model.dll
+E:\ASP.Net\ProjectShop\Shop\Shop.Service\bin\Debug\Shop.Common.pdb
+E:\ASP.Net\ProjectShop\Shop\Shop.Service\bin\Debug\Shop.Data.pdb
+E:\ASP.Net\ProjectShop\Shop\Shop.Service\bin\Debug\Shop.Model.pdb
+E:\ASP.Net\ProjectShop\Shop\Shop.Service\obj\Debug\Shop.Service.csprojResolveAssemblyReference.cache
+E:\ASP.Net\ProjectShop\Shop\Shop.Service\obj\Debug\Shop.Service.dll
+E:\ASP.Net\ProjectShop\Shop\Shop.Service\obj\Debug\Shop.Service.pdb

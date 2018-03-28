@@ -1,0 +1,5 @@
+E:\ASP.Net\ProjectShop\Shop\Shop.Common\bin\Debug\Shop.Common.dll
+E:\ASP.Net\ProjectShop\Shop\Shop.Common\bin\Debug\Shop.Common.pdb
+E:\ASP.Net\ProjectShop\Shop\Shop.Common\obj\Debug\Shop.Common.csprojResolveAssemblyReference.cache
+E:\ASP.Net\ProjectShop\Shop\Shop.Common\obj\Debug\Shop.Common.dll
+E:\ASP.Net\ProjectShop\Shop\Shop.Common\obj\Debug\Shop.Common.pdb
