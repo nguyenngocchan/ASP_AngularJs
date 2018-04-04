@@ -1,30 +1,824 @@
-hệ đạo tạo cho ngành
-Quản lý sinh viên: Lớp học, tạo mới sinh viên
-Lớp môn học nằm trong điểm
-Lơp học lọc theo khoa
-Đầu học kỳ import dữ liệu sinh viên(mã sinh viên...tất cả mẫu excel) trong danh sách có lớp
-Thông tin lớp tạo trước
+/*
+--diem thi dai hoc
+SELECT dhcq.HO, dhcq.TEN, dhcq.KHUVUC, dhcq.SOBAODANH, dhcq.DM1, dhcq.DM2, dhcq.DM3, dhcq.AY
+FROM TBL_TMP_PASSEDSTUDENTDHCQ dhcq
+WHERE dhcq.TEN='Ch?n'
 
-Lúc tạo mới lớp: chọn ngành, hệ đào tạo...
-Đầu tiên vô chưa phân chuyên ngành mà thuộc ngành mà học chung
 
-Bỏ điểm tuyển sinh
+SELECT  parent.NAME as "ROOT_NAME", root.NAME, root.PATH, parent.NAME as "ROOT_NAME"
+FROM TBL_STU_PAGE root left OUTER join TBL_STU_PAGE parent on root.PARENTID=parent.ID
+ORDER BY parent.Name
 
-Lớp môn học tạo tự động và nhập excel
-chỉnh sửa javascrip phím xuống điểm
-nhập file excel điểm: từ danh sách thi có điểm import vào hệ thống
-lớp môn học đẻ ra bảng điểm chi tiết từng cột
-chi tiết từng cột điểm(quản lý bài tập lần 1, 2, đồ án)
 
-trong đại học các môn thường(học phần 4 điểm đạt)
-giáo dục thể chất, quốc phòng, anh văn 5 điểm
-Bảng định nghĩa đánh giá quy định đạt,không đạt có cột môn học.
-Áp dụng trong từng khóa, 
-role mặc định và role phủ mặc định đó với môn học đặc biệt
-Thuộc tính môn không tính điểm trong version
-Cột công thức tính trong version
 
-Quy định làm tròn điểm gắn liền 1 khóa
+SELECT qrys.QUERYDISPLAY, qrys.QUERYNAME, qrys.QUERYSTRING, sTab.TABLENAME
+FROM TBL_HUR_QUERYSTRING qrys inner join LST_SEARCH_TABLE sTab on qrys.TABLEID=sTab.ID
 
-Điểm động và điểm chốt:real time cho sinh viên xem, và phòng đào tạo 
-điểm tự động view, điểm chốt lấy ra 
+--L?ch thi
+SELECT std.FIRSTNAME, teld.SBD, teld.LANTHI, teld.CAMTHI, teld.STUDYTIMES, teld.MARKNUMBER, teld.SEMESTER, es.ESNAME, teld.EXAMORDER 
+        ,c.COURSENAME, tel.CODEDST, tel.NGAYTHI, tel.CATHI, tel.HK, tel.NAMHOC
+FROM TBL_EXA_TABLEEXAMLISTDETAIL teld inner join TBL_EXA_TABLEEXAMLIST tel on teld.LICHTHIID=tel.ID1111111111
+        inner join TBL_STU_STUDENT std on teld.STUDENTID=std.ID
+        inner join TBL_ES_EXAMSCHEDULE es on teld.EXAMSCHEDULEID=es.ID
+        inner join TBL_TSY_COURSE c on tel.COURSEID=c.ID
+        
+---danh sách list
+select TBL_CTL_CATALOGUEINFO.NAME,LST_RPT_MODULE.CODE,TBL_CTL_CATALOGUEINFO.TABLENAME,LST_RPT_MODULE.NAME 
+from TBL_CTL_CATALOGUEINFO inner join LST_RPT_MODULE on TBL_CTL_CATALOGUEINFO.MODULEID= LST_RPT_MODULE.ID
+where TBL_CTL_CATALOGUEINFO.TABLENAME='lst_tsy_FormOfEducation'
+= 'lst_tsy_FormOfEducation'
+
+
+--diem thi
+select d.FIRSTNAME,b.COURSENAME,a.MARK,a.mark4,f.CODE,f.NAME,c.NAME,a.RESULT,e.FORMULARSTRING,g.FULLNAME from TBL_PNT_TABLEMARK a inner join TBL_TSY_COURSE b on a.COURSEID=b.ID
+inner join LST_PNT_MARKTYPE c on a.MARKTYPEID=c.ID
+inner join TBL_STU_STUDENT d on a.STUDENTID=d.ID
+inner join TBL_PNT_MARKFORMULAR e on c.ID=e.MARKTYPEID
+inner join LST_PNT_SYMBOLMARK f on f.ID=a.SYMBOLMARKID
+inner join TBL_STU_USER g on g.id=a.USERID
+where a.STUDENTID='72dcd4f915f745cbbf7bbe34c8e49977'    
+
+
+
+
+--diem trung binh he 10
+SELECT * FROM TBL_PNT_SUMMARISEMARK a inner join TBL_STU_STUDENT b on a.STUDENTID=b.ID
+where a.STUDENTID='72dcd4f915f745cbbf7bbe34c8e49977'
+
+
+
+--diem trung binh he 4
+SELECT * FROM TBL_PNT_SUMMARISEMARK_HE4 a inner join TBL_STU_STUDENT b on a.STUDENTID=b.ID
+where a.STUDENTID='72dcd4f915f745cbbf7bbe34c8e49977'
+
+--thong tin hoc bong
+select a.FIRSTNAME,b.class,b.DHT,b.DRL,b.DTBMR,b.SEMESTER,c.NAME,d.NAME from TBL_STU_STUDENT a inner join TBL_SH_STUDENTSHOLASHIP b on a.ID=b.STUDENTID
+inner join LST_SH_SCHOLARSHIPLEVEL c on b.LEVELS=c.ID
+inner join TBL_SH_SCHOLARSHIPFUND d on b.SCHOLARSHIPFUNDID=d.ID
+where a.ID=C
+
+
+select * from TBL_STU_STUDENT inner join TBL_TSY_ADMINISTRATIVECLASS on TBL_STU_STUDENT.ADMINCLASSID=TBL_TSY_ADMINISTRATIVECLASS.ID where TBL_STU_STUDENT.ADMINCLASSID='A3A37E38F6084F37A7324EA22D9AAC50' 
+
+---study warning
+select * from LST_TSY_STUDYWARNINGLEVEL a inner join TBL_TSY_STUDYWARNING b on a.id=b.WARNINGLEVELID
+where b.STUDENTID='2cec51cfe30746a4942d85ded2559b4b'
+
+--quyet dinh khen thuong ky luat
+SELECT * from TBL_STU_STUDENTDECISION inner join TBL_STU_STUDENT on TBL_STU_STUDENTDECISION.STUDENTID=TBL_STU_STUDENT.ID where TBL_STU_STUDENT.COTTAM='02_ÐHCNTT_1'
+
+
+select TBL_CTL_CATALOGUEINFO.NAME,LST_RPT_MODULE.CODE,TBL_CTL_CATALOGUEINFO.TABLENAME,LST_RPT_MODULE.NAME 
+from TBL_CTL_CATALOGUEINFO inner join LST_RPT_MODULE on TBL_CTL_CATALOGUEINFO.MODULEID= LST_RPT_MODULE.ID
+
+select TBL_CTL_CATALOGUEINFO.NAME,LST_RPT_MODULE.CODE,TBL_CTL_CATALOGUEINFO.TABLENAME,LST_RPT_MODULE.NAME 
+from TBL_CTL_CATALOGUEINFO inner join LST_RPT_MODULE on TBL_CTL_CATALOGUEINFO.MODULEID= LST_RPT_MODULE.ID
+-- dem record table
+select
+   table_name,
+   to_number(
+   extractvalue(
+      xmltype(
+         dbms_xmlgen.getxml('select count(*) c from '||table_name))
+    ,'/ROWSET/ROW/C')) count
+from 
+   user_tables
+order by 
+   table_name;
+
+SELECT name FROM V$DATAFILE;
+SELECT member FROM V$LOGFILE;
+
+
+
+
+
+select group#, archived, status from v$log;
+
+
+
+
+select * from TBL_TSY_CURRICULUMNINSEMESTER a inner join TBL_TSY_ADMINISTRATIVECLASS b on a.ADMINCLASSID=b.ID where a.adminclassid='AC7B5D8957864C27A95EE9ABC7A15AEF'
+
+select a.FIELDNAME,b.AMOUNTOFYEAR,c.NUMBEROFSEM,c.AYNAME from LST_TSY_FIELD a inner join TBL_TSY_TRAININGSYSTEM b on a.TRAININGSYSTEMID=b.ID 
+inner join TBL_TSY_ACADEMICYEAR c on c.TRAININGSYSTEMID=b.id
+where c.AYNAME='DHCQ02'
+
+
+SELECT
+    hh.id,hh.AYNAME,gg.ID, c.COURSENAME, sem.NAME, sem.SCHOOLYEAR,sem.id,cc.id
+FROM TBL_TSY_COURSE_CURRIINSEM cc inner join TBL_TSY_CURRICULUMNINSEMESTER cis on cc.CURRIINSEMESTERID=cis.ID
+inner join TBL_TSY_COURSE c on cc.COURSEID=c.ID
+inner join TBL_TSY_SEMESTER sem on cis.SEMESTERID=sem.ID
+inner join TBL_TSY_TRAININGSYSTEM gg on gg.id=c.TRAININGSYSTEMID
+inner join TBL_TSY_ACADEMICYEAR hh on hh.TRAININGSYSTEMID=gg.id
+WHERE cis.ADMINCLASSID='AC7B5D8957864C27A95EE9ABC7A15AEF' and hh.ID='16C89C8C3FB244B08FAD6110A6A81958'
+order by sem.SCHOOLYEAR, sem.NAME
+
+
+
+select b.NAME,c.CLASSNAME,c.CLASSNAMETA,b.SCHOOLYEAR
+from TBL_TSY_CURRICULUMNINSEMESTER a inner join TBL_TSY_SEMESTER b on b.id=a.SEMESTERID
+inner join TBL_TSY_ADMINISTRATIVECLASS c on c.id=a.ADMINCLASSID
+where a.ADMINCLASSID='A552D73350BB4467A0C3E14AAF322FFB'
+
+
+SELECT
+     c.COURSENAME, sem.NAME, sem.SCHOOLYEAR,DD.STAGENAME,EE.CLASSNAME
+FROM TBL_TSY_COURSE_CURRIINSEM cc inner join TBL_TSY_CURRICULUMNINSEMESTER cis on cc.CURRIINSEMESTERID=cis.ID
+inner join TBL_TSY_COURSE c on cc.COURSEID=c.ID
+inner join TBL_TSY_SEMESTER sem on cis.SEMESTERID=sem.ID
+inner join TBL_TSY_STAGEOFEDUCATION dd on dd.id=CIS.STAGEOFEDUCATIONID
+inner join TBL_TSY_ADMINISTRATIVECLASS ee on ee.id=CIS.ADMINCLASSID
+WHERE EE.CLASSNAME='01_LTCÐMT'
+order by sem.SCHOOLYEAR, sem.NAME
+
+SELECT
+     c.COURSENAME, sem.NAME, sem.SCHOOLYEAR,DD.STAGENAME,EE.CLASSNAME,GG.SEMESTERORDER
+FROM TBL_TSY_COURSE_CURRIINSEM cc inner join TBL_TSY_CURRICULUMNINSEMESTER cis on cc.CURRIINSEMESTERID=cis.ID
+inner join TBL_TSY_COURSE_CURRIINSTAGE gg on GG.ID=CC.COURSECURRIINSTAGEID
+inner join TBL_TSY_COURSE c on cc.COURSEID=c.ID
+inner join TBL_TSY_SEMESTER sem on cis.SEMESTERID=sem.ID
+inner join TBL_TSY_STAGEOFEDUCATION dd on dd.id=CIS.STAGEOFEDUCATIONID
+inner join TBL_TSY_ADMINISTRATIVECLASS ee on ee.id=CIS.ADMINCLASSID
+WHERE ee.id='80B4FA62599F4370A993B7DB7ED45FE3'
+order by sem.SCHOOLYEAR, sem.NAME
+
+
+select * from tbl_stu_student where code='0250080007'
+72dcd4f915f745cbbf7bbe34c8e49977
+
+select * from TBL_PNT_TABLEMARK where STUDENTID='72dcd4f915f745cbbf7bbe34c8e49977'
+
+select b.COURSENAME,a.MARK,a.mark4,f.CODE,f.NAME,c.NAME,a.RESULT,e.FORMULARSTRING,g.FULLNAME from TBL_PNT_TABLEMARK a inner join TBL_TSY_COURSE b on a.COURSEID=b.ID
+inner join LST_PNT_MARKTYPE c on a.MARKTYPEID=c.ID
+inner join TBL_STU_STUDENT d on a.STUDENTID=d.ID
+inner join TBL_PNT_MARKFORMULAR e on c.ID=e.MARKTYPEID
+inner join LST_PNT_SYMBOLMARK f on f.ID=a.SYMBOLMARKID
+inner join TBL_STU_USER g on g.id=a.USERID
+where a.STUDENTID='72dcd4f915f745cbbf7bbe34c8e49977'  
+
+
+
+select C.COURSENAME,A.MARK,A.SEMESTER,b.name,a.oldmark from TBL_PNT_TABLEMARK_HISTORY a 
+inner JOIN LST_PNT_MARKTYPE b on A.MARKTYPEID=B.ID
+inner join TBL_TSY_COURSE c on c.id=A.COURSEID
+where STUDENTID='72dcd4f915f745cbbf7bbe34c8e49977'
+and c.code='11121004'
+
+
+
+
+
+
+
+--                                                    IMPORT DATA
+Niên khóa
+/*SELECT
+     c.COURSENAME, sem.NAME, sem.SCHOOLYEAR,DD.STAGENAME,EE.CLASSNAME,GG.SEMESTERORDER
+FROM TBL_TSY_COURSE_CURRIINSEM cc inner join TBL_TSY_CURRICULUMNINSEMESTER cis on cc.CURRIINSEMESTERID=cis.ID
+inner join TBL_TSY_COURSE_CURRIINSTAGE gg on GG.ID=CC.COURSECURRIINSTAGEID
+inner join TBL_TSY_COURSE c on cc.COURSEID=c.ID
+inner join TBL_TSY_SEMESTER sem on cis.SEMESTERID=sem.ID
+inner join TBL_TSY_STAGEOFEDUCATION dd on dd.id=CIS.STAGEOFEDUCATIONID
+inner join TBL_TSY_ADMINISTRATIVECLASS ee on ee.id=CIS.ADMINCLASSID
+WHERE ee.id='F9EBF3C7078F45F2932C5F9FF8220A57'
+order by sem.SCHOOLYEAR, sem.NAME
+
+select i.CODe||'_'||E.code from TBL_TSY_STAGEOFEDUCATION a inner join TBL_TSY_ADMINISTRATIVECLASS b on 
+a.id=B.STAGEOFEDUCATIONID
+inner join TBL_TSY_COURSE_CURRIINSTAGE c on C.STAGEOFEDUCATIONID=A.ID
+inner join tbl_tsy_course d on d.id=C.COURSEID
+inner join LST_TSY_MAJORFIELD e on e.id=A.FIELDID
+inner join lst_tsy_field f on f.id=E.FIELDID
+inner join TBL_TSY_CURRICULUMNINSTAGE g on G.STAGEOFEDUCATIONID=A.ID
+inner join TBL_TSY_ACADEMICYEAR h on h.id=A.AYID
+inner join TBL_TSY_TRAININGSYSTEM i on i.id=H.TRAININGSYSTEMID
+where B.CLASSNAME='02_?HCNTT_1'
+EF5A483E764D42CC8373D519E85C0E31
+9ff4ebb1b66349e1b1ed13cd14074c32
+
+//Ch?n ch??ng trình ?ào t?o
+select distinct i.CODe||'_'||E.code,I.NAME||'_'||E.MAJORNAME||'_'||E.CODE,I.CODE,E.CODE from TBL_TSY_STAGEOFEDUCATION a inner join TBL_TSY_ADMINISTRATIVECLASS b on 
+a.id=B.STAGEOFEDUCATIONID
+inner join TBL_TSY_COURSE_CURRIINSTAGE c on C.STAGEOFEDUCATIONID=A.ID
+inner join tbl_tsy_course d on d.id=C.COURSEID
+inner join LST_TSY_MAJORFIELD e on e.id=A.FIELDID
+inner join lst_tsy_field f on f.id=E.FIELDID
+inner join TBL_TSY_CURRICULUMNINSTAGE g on G.STAGEOFEDUCATIONID=A.ID
+inner join TBL_TSY_ACADEMICYEAR h on h.id=A.AYID
+inner join TBL_TSY_TRAININGSYSTEM i on i.id=H.TRAININGSYSTEMID
+
+
+select distinct i.CODe||'_CN_'||f.code,I.NAME||'_'||F.FIELDNAME||'_'||f.CODE,I.CODE,'CN'||'_'||f.CODE from TBL_TSY_STAGEOFEDUCATION a inner join TBL_TSY_ADMINISTRATIVECLASS b on 
+a.id=B.STAGEOFEDUCATIONID
+inner join TBL_TSY_COURSE_CURRIINSTAGE c on C.STAGEOFEDUCATIONID=A.ID
+inner join tbl_tsy_course d on d.id=C.COURSEID
+inner join lst_tsy_field f on f.id=a.fieldid
+inner join TBL_TSY_CURRICULUMNINSTAGE g on G.STAGEOFEDUCATIONID=A.ID
+inner join TBL_TSY_ACADEMICYEAR h on h.id=A.AYID
+inner join TBL_TSY_TRAININGSYSTEM i on i.id=H.TRAININGSYSTEMID
+
+
+
+
+
+--Ch?n version
+select distinct G.STAGEOFEDUCATIONID,A.STAGENAME,i.CODe||'_'||E.code from TBL_TSY_STAGEOFEDUCATION a inner join TBL_TSY_ADMINISTRATIVECLASS b on 
+a.id=B.STAGEOFEDUCATIONID
+inner join TBL_TSY_COURSE_CURRIINSTAGE c on C.STAGEOFEDUCATIONID=A.ID
+inner join tbl_tsy_course d on d.id=C.COURSEID
+inner join LST_TSY_MAJORFIELD e on e.id=A.FIELDID
+inner join lst_tsy_field f on f.id=E.FIELDID
+inner join TBL_TSY_CURRICULUMNINSTAGE g on G.STAGEOFEDUCATIONID=A.ID
+inner join TBL_TSY_ACADEMICYEAR h on h.id=A.AYID
+inner join TBL_TSY_TRAININGSYSTEM i on i.id=H.TRAININGSYSTEMID
+
+select distinct G.STAGEOFEDUCATIONID,A.STAGENAME,i.CODe||'_CN_'||f.code from TBL_TSY_STAGEOFEDUCATION a inner join TBL_TSY_ADMINISTRATIVECLASS b on 
+a.id=B.STAGEOFEDUCATIONID
+inner join TBL_TSY_COURSE_CURRIINSTAGE c on C.STAGEOFEDUCATIONID=A.ID
+inner join tbl_tsy_course d on d.id=C.COURSEID
+inner join lst_tsy_field f on f.id=a.FIELDID
+inner join TBL_TSY_CURRICULUMNINSTAGE g on G.STAGEOFEDUCATIONID=A.ID
+inner join TBL_TSY_ACADEMICYEAR h on h.id=A.AYID
+inner join TBL_TSY_TRAININGSYSTEM i on i.id=H.TRAININGSYSTEMID
+
+--Môn h?c cho version
+select distinct D.COURSENAME||' ('||d.code||+')',g.stageofeducationid,C.SEMESTERORDER from TBL_TSY_STAGEOFEDUCATION a inner join TBL_TSY_ADMINISTRATIVECLASS b on 
+a.id=B.STAGEOFEDUCATIONID
+inner join TBL_TSY_COURSE_CURRIINSTAGE c on C.STAGEOFEDUCATIONID=A.ID
+inner join tbl_tsy_course d on d.id=C.COURSEID
+inner join LST_TSY_MAJORFIELD e on e.id=A.FIELDID
+inner join lst_tsy_field f on f.id=E.FIELDID
+inner join TBL_TSY_CURRICULUMNINSTAGE g on G.STAGEOFEDUCATIONID=A.ID
+inner join TBL_TSY_ACADEMICYEAR h on h.id=A.AYID
+inner join TBL_TSY_TRAININGSYSTEM i on i.id=H.TRAININGSYSTEMID
+where B.CLASSNAME='02_?HCNTT_1'
+
+
+
+select distinct g.stageofeducationid,D.COURSENAME||' ('||d.code||+')',C.SEMESTERORDER from TBL_TSY_STAGEOFEDUCATION a inner join TBL_TSY_ADMINISTRATIVECLASS b on 
+a.id=B.STAGEOFEDUCATIONID
+inner join TBL_TSY_COURSE_CURRIINSTAGE c on C.STAGEOFEDUCATIONID=A.ID
+inner join tbl_tsy_course d on d.id=C.COURSEID
+inner join lst_tsy_field f on f.id=a.FIELDID
+inner join TBL_TSY_CURRICULUMNINSTAGE g on G.STAGEOFEDUCATIONID=A.ID
+inner join TBL_TSY_ACADEMICYEAR h on h.id=A.AYID
+inner join TBL_TSY_TRAININGSYSTEM i on i.id=H.TRAININGSYSTEMID
+
+
+
+--Version cho niên khóa
+select distinct H.CODE,G.STAGEOFEDUCATIONID from TBL_TSY_STAGEOFEDUCATION a inner join TBL_TSY_ADMINISTRATIVECLASS b on 
+a.id=B.STAGEOFEDUCATIONID
+inner join TBL_TSY_COURSE_CURRIINSTAGE c on C.STAGEOFEDUCATIONID=A.ID
+inner join tbl_tsy_course d on d.id=C.COURSEID
+inner join LST_TSY_MAJORFIELD e on e.id=A.FIELDID
+inner join lst_tsy_field f on f.id=E.FIELDID
+inner join TBL_TSY_CURRICULUMNINSTAGE g on G.STAGEOFEDUCATIONID=A.ID
+inner join TBL_TSY_ACADEMICYEAR h on h.id=A.AYID
+inner join TBL_TSY_TRAININGSYSTEM i on i.id=H.TRAININGSYSTEMID
+where B.CLASSNAME='02_?HCNTT_1'
+
+
+
+select distinct H.CODE,G.STAGEOFEDUCATIONID from TBL_TSY_STAGEOFEDUCATION a inner join TBL_TSY_ADMINISTRATIVECLASS b on 
+a.id=B.STAGEOFEDUCATIONID
+inner join TBL_TSY_COURSE_CURRIINSTAGE c on C.STAGEOFEDUCATIONID=A.ID
+inner join tbl_tsy_course d on d.id=C.COURSEID
+inner join lst_tsy_field f on f.id=a.FIELDID
+inner join TBL_TSY_CURRICULUMNINSTAGE g on G.STAGEOFEDUCATIONID=A.ID
+inner join TBL_TSY_ACADEMICYEAR h on h.id=A.AYID
+inner join TBL_TSY_TRAININGSYSTEM i on i.id=H.TRAININGSYSTEMID
+
+
+--L?p h?c
+
+
+select a.code,A.CLASSNAME,A.TYPECLASS,A.CLASSNAMETA,A.OPENCLASSDAY,b.id from TBL_TSY_ADMINISTRATIVECLASS a 
+inner join TBL_TSY_STAGEOFEDUCATION b on A.STAGEOFEDUCATIONID=B.ID
+inner join LST_TSY_MAJORFIELD c on c.id=B.FIELDID
+
+
+select a.code,A.CLASSNAME,A.TYPECLASS,A.CLASSNAMETA,A.OPENCLASSDAY,b.id from TBL_TSY_ADMINISTRATIVECLASS a 
+inner join TBL_TSY_STAGEOFEDUCATION b on A.STAGEOFEDUCATIONID=B.ID
+inner join LST_TSY_Field c on c.id=b.FIELDID
+
+
+
+--Sinh viên
+
+    select E.CLASSNAME,a.CODE,a.FIRSTNAME,a.LASTMIDDLENAME,to_char(a.BIRTHDATE,'DD/MM/YYYY'),a.PLACEOFBIRTH,B.CODE,
+    a.TOTALMARK,MARK1,MARK2,MARK3,a.STUDENTSTATUS,C.CODE,a.DISTRICT,D.CODE,a.ORDERNUMBER,
+    a.RESIDENTPOPULATION,a.GRADUATEDFROMHIGHSCHOOL,a.KHICANBAOTINCHO,a.MOBILE_BK,A.GENDER
+    from tbl_stu_student a left join LST_STU_ZONE b on A.ZONEID=B.ID
+    left join LST_STU_NATIONALITY c on A.NATIONALITYID=C.ID
+    left join LST_COM_PROVINCE d on d.id=A.PROVINCEID
+left join TBL_TSY_ADMINISTRATIVECLASS e on e.id=A.ADMINCLASSID
+where a.code='0250080007'
+select count(*) from tbl_stu_student 
+to_char(a.BIRTHDATE,'DD/MM/YYYY')
+
+---Danh m?c h?c k?
+select B.SCHOOLYEAR,B.ORDERINYEAR,B.STARTDATE,B.ENDDATE,B.SEMESTERORDER,B.CODE,A.CODE,B.CODE,b.name
+from TBL_TSY_ACADEMICYEAR a inner join TBL_TSY_SEMESTER b on A.ID=B.AYID 
+
+
+
+
+
+--Danh sách chuyên ngành d?a theo ngành
+select distinct 'CN'||'_'|| D.CODE,D.FIELDNAME,D.FIELDNAME
+from TBL_TSY_ADMINISTRATIVECLASS a 
+inner join TBL_TSY_STAGEOFEDUCATION b on A.STAGEOFEDUCATIONID=B.ID
+left join LST_TSY_MAJORFIELD c on c.id=B.FIELDID inner join lst_tsy_field d on d.id=B.FIELDID
+where a.code not in(
+select a1.code
+from TBL_TSY_ADMINISTRATIVECLASS a1
+inner join TBL_TSY_STAGEOFEDUCATION b1 on A1.STAGEOFEDUCATIONID=B1.ID
+inner join LST_TSY_MAJORFIELD c1 on c1.id=B1.FIELDID)
+
+--      
+
+--Môn h?c
+select a.code,A.COURSENAME,A.COURSECREDIT,C.CODE,B.CODE,a.nomark from TBL_tsy_course a inner join TBL_TSY_SUBJECT b on A.SUBJECTID=b.id
+left join TBL_TSY_COURSETYPE c on c.id=A.COURSETYPEID
+
+
+select distinct B.CODE,E.CODE as lop
+from TBL_PNT_TABLEMARK a inner join TBL_TSY_COURSE b on A.COURSEID=b.id
+inner join LST_PNT_MARKTYPE c on c.ID=A.MARKTYPEID
+inner join TBL_STU_STUDENT d on A.STUDENTID=D.ID
+inner join TBL_TSY_ADMINISTRATIVECLASS e on e.id=D.ADMINCLASSID
+
+select distinct c.name from TBL_PNT_TABLEMARK a inner join TBL_TSY_COURSE b on a.COURSEID=b.ID
+inner join LST_PNT_MARKTYPE c on a.MARKTYPEID=c.ID
+inner join TBL_STU_STUDENT d on a.STUDENTID=d.ID
+inner join TBL_STU_USER g on g.id=a.USERID
+inner join TBL_TSY_ADMINISTRATIVECLASS e on e.id=D.ADMINCLASSID
+where a.STUDENTID='72dcd4f915f745cbbf7bbe34c8e49977'    
+GROUP BY B.COURSENAME
+
+
+
+--L?p môn h?c
+select distinct E.CLASSNAME||'_'||b.code,E.CLASSNAME,b.COURSENAME||' ('||b.code||+')',a.semester
+from TBL_PNT_TABLEMARK a inner join TBL_TSY_COURSE b on a.COURSEID=b.ID
+inner join LST_PNT_MARKTYPE c on a.MARKTYPEID=c.ID
+inner join TBL_STU_STUDENT d on a.STUDENTID=d.ID
+left join TBL_STU_USER g on g.id=a.USERID
+left join TBL_TSY_ADMINISTRATIVECLASS e on e.id=D.ADMINCLASSID
+
+where e.code='02_ĐHCNTT_1'
+where e.classname is null
+
+
+drop table bangdiem
+
+
+
+--T?o b?ng ?i?m
+create table BangDiem_15_03_18 as
+
+(
+select d.code as mssv,E.CLASSNAME as tenlop,b.code as mamh,d.FIRSTNAME,E.CLASSNAME,b.COURSENAME,
+a.MARK AS THI,NULL AS QT,NULL AS TKHP,NULL AS HP1,NULL AS HP2,NULL AS HP3,NULL AS HP4,c.code--Here
+a.mark4,a.RESULT,g.FULLNAME,a.studytimes,f.code
+from TBL_PNT_TABLEMARK a inner join TBL_TSY_COURSE b on a.COURSEID=b.ID
+inner join LST_PNT_MARKTYPE c on a.MARKTYPEID=c.ID
+inner join TBL_STU_STUDENT d on a.STUDENTID=d.ID
+left join TBL_STU_USER g on g.id=a.USERID
+left join TBL_TSY_ADMINISTRATIVECLASS e on e.id=D.ADMINCLASSID
+left join lst_pnt_symbolmark f on f.id=a.symbolmarkid
+WHERE c.CODE ='THI'
+UNION
+select d.code as mssv,E.CLASSNAME as tenlop,b.code as mamh,d.FIRSTNAME,E.CLASSNAME,b.COURSENAME,
+NULL AS THI,a.MARK AS QT,NULL AS TKHP,NULL AS HP1,NULL AS HP2,NULL AS HP3,NULL AS HP4,--Here
+a.mark4,a.RESULT,g.FULLNAME ,a.studytimes,f.code
+from TBL_PNT_TABLEMARK a inner join TBL_TSY_COURSE b on a.COURSEID=b.ID
+inner join LST_PNT_MARKTYPE c on a.MARKTYPEID=c.ID
+inner join TBL_STU_STUDENT d on a.STUDENTID=d.ID
+left join TBL_STU_USER g on g.id=a.USERID
+left join TBL_TSY_ADMINISTRATIVECLASS e on e.id=D.ADMINCLASSID
+left join lst_pnt_symbolmark f on f.id=a.symbolmarkid
+WHERE c.CODE ='QT'
+UNION
+select d.code as mssv,E.CLASSNAME as tenlop,b.code as mamh,d.FIRSTNAME,E.CLASSNAME,b.COURSENAME,
+NULL AS THI,NULL AS QT,a.MARK AS TKHP,NULL AS HP1,NULL AS HP2,NULL AS HP3,NULL AS HP4,--Here
+a.mark4,a.RESULT,g.FULLNAME,a.studytimes,f.code 
+from TBL_PNT_TABLEMARK a inner join TBL_TSY_COURSE b on a.COURSEID=b.ID
+inner join LST_PNT_MARKTYPE c on a.MARKTYPEID=c.ID
+inner join TBL_STU_STUDENT d on a.STUDENTID=d.ID
+left join TBL_STU_USER g on g.id=a.USERID
+left join TBL_TSY_ADMINISTRATIVECLASS e on e.id=D.ADMINCLASSID
+left join lst_pnt_symbolmark f on f.id=a.symbolmarkid
+WHERE c.CODE ='TKHP'
+UNION
+select d.code as mssv,E.CLASSNAME as tenlop,b.code as mamh,d.FIRSTNAME,E.CLASSNAME,b.COURSENAME,
+NULL AS THI,NULL AS QT,NULL AS TKHP,a.MARK AS HP1,NULL AS HP2,NULL AS HP3,NULL AS HP4,--Here
+a.mark4,a.RESULT,g.FULLNAME,a.studytimes,f.code 
+from TBL_PNT_TABLEMARK a inner join TBL_TSY_COURSE b on a.COURSEID=b.ID
+inner join LST_PNT_MARKTYPE c on a.MARKTYPEID=c.ID
+inner join TBL_STU_STUDENT d on a.STUDENTID=d.ID
+left join TBL_STU_USER g on g.id=a.USERID
+left join TBL_TSY_ADMINISTRATIVECLASS e on e.id=D.ADMINCLASSID
+left join lst_pnt_symbolmark f on f.id=a.symbolmarkid
+WHERE c.CODE ='HP1'
+UNION
+select d.code as mssv,E.CLASSNAME as tenlop,b.code as mamh,d.FIRSTNAME,E.CLASSNAME,b.COURSENAME,
+NULL AS THI,NULL AS QT,NULL AS TKHP,NULL AS HP1,a.mark AS HP2,NULL AS HP3,NULL AS HP4,--Here
+a.mark4,a.RESULT,g.FULLNAME,a.studytimes,f.code 
+from TBL_PNT_TABLEMARK a inner join TBL_TSY_COURSE b on a.COURSEID=b.ID
+inner join LST_PNT_MARKTYPE c on a.MARKTYPEID=c.ID
+inner join TBL_STU_STUDENT d on a.STUDENTID=d.ID
+left join TBL_STU_USER g on g.id=a.USERID
+left join TBL_TSY_ADMINISTRATIVECLASS e on e.id=D.ADMINCLASSID
+left join lst_pnt_symbolmark f on f.id=a.symbolmarkid
+WHERE c.CODE ='HP2'
+UNION
+select d.code as mssv,E.CLASSNAME as tenlop,b.code as mamh,d.FIRSTNAME,E.CLASSNAME,b.COURSENAME,
+NULL AS THI,NULL AS QT,NULL AS TKHP,NULL AS HP1,NULL AS HP2,a.mark AS HP3,NULL AS HP4,--Here
+a.mark4,a.RESULT,g.FULLNAME,a.studytimes,f.code 
+from TBL_PNT_TABLEMARK a inner join TBL_TSY_COURSE b on a.COURSEID=b.ID
+inner join LST_PNT_MARKTYPE c on a.MARKTYPEID=c.ID
+inner join TBL_STU_STUDENT d on a.STUDENTID=d.ID
+left join TBL_STU_USER g on g.id=a.USERID
+left join TBL_TSY_ADMINISTRATIVECLASS e on e.id=D.ADMINCLASSID
+left join lst_pnt_symbolmark f on f.id=a.symbolmarkid
+WHERE c.CODE ='HP3'
+UNION
+select d.code as mssv,E.CLASSNAME as tenlop,b.code as mamh,d.FIRSTNAME,E.CLASSNAME,b.COURSENAME,
+NULL AS THI,NULL AS QT,NULL AS TKHP,NULL AS HP1,NULL AS HP2,NULL AS HP3,a.mark AS HP4,--Here
+a.mark4,a.RESULT,g.FULLNAME,a.studytimes,f.code 
+from TBL_PNT_TABLEMARK a inner join TBL_TSY_COURSE b on a.COURSEID=b.ID
+inner join LST_PNT_MARKTYPE c on a.MARKTYPEID=c.ID
+inner join TBL_STU_STUDENT d on a.STUDENTID=d.ID
+left join TBL_STU_USER g on g.id=a.USERID
+left join TBL_TSY_ADMINISTRATIVECLASS e on e.id=D.ADMINCLASSID
+left join lst_pnt_symbolmark f on f.id=a.symbolmarkid
+WHERE c.CODE ='HP4'
+)
+
+Select db.MSSV,db.CLASSNAME||'_'||db.MAMH, MAX(db.QT) AS QT,MAX(db.THI) AS THI, MAX(db.TKHP) AS TKHP,
+MAX(db.HP1) as HP1, MAX(db.HP2) as HP2,MAX(db.HP3) as HP3,MAX(db.HP4) as HP4,MAX(db.MARK4) AS HE4,db.studytimes, MAX(db.RESULT) as KetQua,MAX(db.Code) as KyHieuDiem
+FROm BANGDIEM_15_03_18 db
+--where db.mssv='0250080007'
+
+GROUP BY db.MSSV,db.CLASSNAME,db.MAMH,db.studytimes
+
+
+
+
+select distinct 'CN'||'_'|| D.CODE,D.FIELDNAME,D.FIELDNAME
+from TBL_TSY_ADMINISTRATIVECLASS a 
+inner join TBL_TSY_STAGEOFEDUCATION b on A.STAGEOFEDUCATIONID=B.ID
+left LST_TSY_MAJORFIELD c on c.id=B.FIELDID inner join lst_tsy_field d on d.id=B.FIELDID
+where a.code not in(
+select a1.code
+from TBL_TSY_ADMINISTRATIVECLASS a1
+inner join TBL_TSY_STAGEOFEDUCATION b1 on A1.STAGEOFEDUCATIONID=B1.ID
+inner join LST_TSY_MAJORFIELD c1 on c1.id=B1.FIELDID)
+
+select distinct F.FIELDNAME,i.name||'_'||f.code,f.fieldnameenglish,I.NAME,K.CODE from TBL_TSY_STAGEOFEDUCATION a left join TBL_TSY_ADMINISTRATIVECLASS b on 
+a.id=B.STAGEOFEDUCATIONID
+left join TBL_TSY_COURSE_CURRIINSTAGE c on C.STAGEOFEDUCATIONID=A.ID
+left join tbl_tsy_course d on d.id=C.COURSEID
+left join LST_TSY_MAJORFIELD e on e.id=A.FIELDID
+left join lst_tsy_field f on f.id=E.FIELDID
+left join TBL_TSY_CURRICULUMNINSTAGE g on G.STAGEOFEDUCATIONID=A.ID
+left join TBL_TSY_ACADEMICYEAR h on h.id=A.AYID
+left join TBL_TSY_TRAININGSYSTEM i on i.id=H.TRAININGSYSTEMID
+left join LST_STU_GROUP k on k.DOITUONGTHONGTINLIENQUANID=f.FACULTYID
+*/
+
+
+
+select distinct E.CLASSNAME||'_'||b.code,E.CLASSNAME,b.COURSENAME||' ('||b.code||+')',b.code,a.semester,H.SYMBOL
+from TBL_PNT_TABLEMARK a inner join TBL_TSY_COURSE b on a.COURSEID=b.ID
+inner join LST_PNT_MARKTYPE c on a.MARKTYPEID=c.ID
+inner join TBL_STU_STUDENT d on a.STUDENTID=d.ID
+left join TBL_STU_USER g on g.id=a.USERID
+left join TBL_TSY_ADMINISTRATIVECLASS e on e.id=D.ADMINCLASSID
+left join TBL_TSY_STAGEOFEDUCATION f on E.STAGEOFEDUCATIONID=f.id
+inner join TBL_TSY_ACADEMICYEAR h on h.id=F.AYID
+inner join TBL_TSY_SEMESTER k on h.id=K.AYID
+where e.code='02_ĐHCNTT_1'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+select sv.ID,lmh.ID,dt.QT,dt.THI,dt.TKHP,khd.id,dt.Ketqua,dt.He4,dt.Lanhoc,dt.HP1,dt.HP2,dt.HP3,dt.HP4  from DataImport dt left join tb_SUNSIS_HCMUNRE_SV_Sinhvien sv on dt.MSSV=sv.Code
+left join tb_SUNSIS_HCMUNRE_QLLH_LH lh on lh.name=dt.CLASSNAME
+left join tb_SUNSIS_HCMUNRE_QLCTDT_MH mh on mh.Code=dt.MAMH
+left join tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc lmh on lmh.Lophoc_Id=lh.ID and lmh.MonHoc=mh.ID
+left join tb_SUNSIS_HCMUNRE_QLD_KyHieuDiem khd on dt.Kyhieudiem=khd.code
+where dt.LopMonHoc=lmh.Ma_LopHoc and dt.MSSV=sv.code
+
+
+
+insert into tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc_DSSinhVien(SinhVien_ID,Lop_MonHoc,Diem_QT,Diem_Thi,Diem_TongKet,Kyhieudiem,Ketqua,Diem_He4,Lanhoc,Diem_HP1,Diem_HP2,Diem_HP3,Diem_HP4)
+ select sv.ID,lmh.ID,dt.QT,dt.THI,dt.TKHP,khd.id,dt.Ketqua,dt.He4,dt.Lanhoc,dt.HP1,dt.HP2,dt.HP3,dt.HP4  from DataImport dt inner join tb_SUNSIS_HCMUNRE_SV_Sinhvien sv on dt.MSSV=sv.Code
+inner join tb_SUNSIS_HCMUNRE_QLLH_LH lh on lh.name=dt.CLASSNAME
+inner join tb_SUNSIS_HCMUNRE_QLCTDT_MH mh on mh.Code=dt.MAMH
+inner join tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc lmh on lmh.Lophoc_Id=lh.ID and lmh.MonHoc=mh.ID
+left join tb_SUNSIS_HCMUNRE_QLD_KyHieuDiem khd on dt.Kyhieudiem=khd.code
+where dt.MSSV='0250080007'
+
+
+select lmh.HocKy,mh.CourseCredit,lmhdssv.Diem_He4 from tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc_DSSinhVien lmhdssv
+inner join tb_SUNSIS_HCMUNRE_SV_Sinhvien sv on lmhdssv.SinhVien_ID=sv.ID
+inner join tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc lmh on lmh.ID=lmhdssv.Lop_MonHoc
+inner join tb_SUNSIS_HCMUNRE_QLCTDT_MH mh on mh.ID=lmh.MonHoc
+where sv.Code='0250080007'
+order by lmh.HocKy asc
+
+
+SELECT c.CourseName,a.SinhVien_ID,a.Diem_He4,c.CourseCredit,b.HocKy
+FROM tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc_DSSinhVien a
+inner join tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc b
+inner join tb_SUNSIS_HCMUNRE_QLCTDT_MH c
+on c.id=b.MonHoc
+on a.Lop_MonHoc=b.ID
+where a.SinhVien_ID=154618 and b.HocKy='2013_2014_1' 
+
+
+select * from tb_SUNSIS_HCMUNRE_SV_Sinhvien where code='0250080007'
+
+
+SELECT c.CourseName,a.SinhVien_ID,a.Diem_He4,c.CourseCredit,b.HocKy 
+,((sum(c.CourseCredit*a.Diem_He4) over(PARTITION BY a.SinhVien_ID))/(sum (c.CourseCredit) over(PARTITION BY a.SinhVien_ID))) as DTB
+FROM tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc_DSSinhVien a
+inner join tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc b
+inner join tb_SUNSIS_HCMUNRE_QLCTDT_MH c
+on c.id=b.MonHoc
+on a.Lop_MonHoc=b.ID
+where a.SinhVien_ID=154618 and b.HocKy='2013_2014_1'
+
+
+
+
+SELECT DISTINCT b.HocKy,a.SinhVien_ID
+,((sum(c.CourseCredit*a.Diem_He4) over(PARTITION BY a.SinhVien_ID, b.HocKy))/(sum (c.CourseCredit) over(PARTITION BY a.SinhVien_ID, b.HocKy))) as DTB
+FROM tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc_DSSinhVien a
+inner join tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc b
+inner join tb_SUNSIS_HCMUNRE_QLCTDT_MH c
+on c.id=b.MonHoc
+on a.Lop_MonHoc=b.ID
+where a.SinhVien_ID=154618 --and b.HocKy='2013_2014_2'
+
+delete from tb_SUNSIS_HCMUNRE_QLCTDT_CTDT
+select * from tb_SUNSIS_HCMUNRE_Danhmuc_chuyennganh
+delete from tb_SUNSIS_HCMUNRE_QLCTDT_VERSION
+delete from tb_SUNSIS_HCMUNRE_QLCTDT_MonhocVS
+
+
+select * from tb_SUNSIS_HCMUNRE_QLCTDT_VERSION a inner join tb_SUNSIS_HCMUNRE_QLCTDT_MonhocVS b
+on a.id=b.Versionid
+
+delete from tb_SUNSIS_HCMUNRE_QLLH_LH
+select * from tb_SUNSIS_HCMUNRE_SV_Sinhvien
+delete from tb_SUNSIS_HCMUNRE_SV_Sinhvien
+select * from tbAccountInfo
+delete from tbAccountInfo where colType=32
+
+select * from tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc
+delete from tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc
+
+
+
+select *from tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc_DSSinhVien
+delete from tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc_DSSinhVien
+22214
+
+
+{select * from tb_SUNSIS_HCMUNRE_Danhmuc_chuyennganh where ID
+ in (select majorfield from tb_SUNSIS_HCMUNRE_QLCTDT_CTDT ctdt inner join tb_SUNSIS_HCMUNRE_QLCTDT_VERSION vs on ctdt.ID=vs.Trainid 
+ inner join tb_SUNSIS_HCMUNRE_QLCTDT_NK ctdtnk on vs.ID=ctdtnk.Version
+ inner join tb_SUNSIS_HCMUNRE_Danhmuc_NienKhoa nk on nk.ID=ctdtnk.ayyear  where nk.Id=40)}
+
+
+ select * from tb_SUNSIS_HCMUNRE_Danhmuc_NienKhoa
+
+
+{ select * from tb_SUNSIS_HCMUNRE_QLLH_LH where ayversion in
+ (select nk.ID from tb_SUNSIS_HCMUNRE_QLCTDT_NK nk inner join tb_SUNSIS_HCMUNRE_QLCTDT_VERSION ver on nk.Version=ver.ID 
+ inner join tb_SUNSIS_HCMUNRE_QLCTDT_CTDT ctdt on ver.Trainid=ctdt.ID inner join tb_SUNSIS_HCMUNRE_Danhmuc_chuyennganh cn on cn.ID=ctdt.majorfield
+ inner join tb_SUNSIS_HCMUNRE_Danhmuc_NienKhoa dmnk on dmnk.ID=nk.ayyear
+  where cn.ID=[Major] and dmnk.ID=[Ayid])}
+
+  {select * from tb_SUNSIS_HCMUNRE_Danhmuc_bacdaotao where ID in(select degreeid from tb_SUNSIS_HCMUNRE_DM_HDT where ID=40)}
+
+  select * from tb_SUNSIS_HCMUNRE_DM_HK
+  select * from tb_SUNSIS_HCMUNRE_QLCTDT_HK
+  select * from tb_SUNSIS_HCMUNRE_SV_Sinhvien
+
+
+
+  {select * from tb_SUNSIS_HCMUNRE_Danhmuc_chuyennganh where ID in(select majorfield from tb_SUNSIS_HCMUNRE_DM_HDT where trainid=[Trainid])}
+
+    {select * from tb_SUNSIS_HCMUNRE_Danhmuc_chuyennganh where ID in(select majorfield from tb_SUNSIS_HCMUNRE_DM_HDT where trainid=[Trainid])}
+select * from tb_SUNSIS_HCMUNRE_Danhmuc_chuyennganh chuyennganh inner join tb_SUNSIS_HCMUNRE_Danhmuc_nganh nganh on nganh.ID=chuyennganh.field
+
+
+
+{select chuyennganh.* from tb_SUNSIS_HCMUNRE_Danhmuc_chuyennganh chuyennganh inner join tb_SUNSIS_HCMUNRE_Danhmuc_nganh nganh on nganh.ID=chuyennganh.field
+inner join tb_SUNSIS_HCMUNRE_DM_HDT hdt on nganh.HeDaoTao_ID=hdt.ID where hdt.ID=14}
+
+select ctdt.* from tb_SUNSIS_HCMUNRE_QLCTDT_CTDT ctdt inner join vw_tb_SUNSIS_HCMUNRE_Danhmuc_chuyennganh cn on
+cn.ID=ctdt.majorfield
+inner join tb_SUNSIS_HCMUNRE_Danhmuc_nganh nganh on nganh.ID=cn.field
+inner join tb_SUNSIS_HCMUNRE_DM_HDT hdt on nganh.HeDaoTao_ID=hdt.ID
+where  cn.ID=122
+
+
+{select * from tb_SUNSIS_HCMUNRE_QLCTDT_VERSION where Trainid in (select ID from tb_SUNSIS_HCMUNRE_QLCTDT_CTDT where ID=1583)}
+
+
+{select * from tb_SUNSIS_HCMUNRE_Danhmuc_khoa khoa inner join tb_SUNSIS_HCMUNRE_Danhmuc_nganh nganh on khoa.ID=nganh.khoa
+inner join tb_SUNSIS_HCMUNRE_Danhmuc_chuyennganh chuyennganh on chuyennganh.field=nganh.ID
+where chuyennganh.ID=[Major]}
+
+	{select nganh.* from tb_SUNSIS_HCMUNRE_Danhmuc_nganh  nganh inner join tb_SUNSIS_HCMUNRE_Danhmuc_chuyennganh chuyennganh
+	on nganh.ID=chuyennganh.field where chuyennganh.ID=[Major]}
+
+
+{select vs.* from tb_SUNSIS_HCMUNRE_Danhmuc_chuyennganh  cn inner join tb_SUNSIS_HCMUNRE_QLCTDT_CTDT ctdt on cn.ID=ctdt.majorfield
+inner join tb_SUNSIS_HCMUNRE_QLCTDT_VERSION vs on vs.Trainid=ctdt.ID
+inner join tb_SUNSIS_HCMUNRE_QLCTDT_NK ctdtnk on ctdtnk.Version=vs.ID
+inner join tb_SUNSIS_HCMUNRE_Danhmuc_NienKhoa nk on nk.ID=ctdtnk.ayyear
+where nk.ID=[NienKhoa_Id] and cn.ID=[Chuyennganh_Id]}
+select count(*) from tb_SUNSIS_HCMUNRE_QLLH_LH
+select * from tb_SUNSIS_HCMUNRE_QLCTDT_MH
+
+select * from tb_SUNSIS_HCMUNRE_Danhmuc_khoikienthuc where ID in(select SubjectID from tb_SUNSIS_HCMUNRE_QLCTDT_MH where ID=2227)
+
+
+select * from DataImport where MSSV='0250080007'
+
+
+select * from tb_SUNSIS_HCMUNRE_QLLH_LH
+delete from tb_SUNSIS_HCMUNRE_QLLH_LH where Id=6119
+
+
+{select ctdtnk.* from tb_SUNSIS_HCMUNRE_Danhmuc_chuyennganh  cn inner join tb_SUNSIS_HCMUNRE_QLCTDT_CTDT ctdt on cn.ID=ctdt.majorfield
+inner join tb_SUNSIS_HCMUNRE_QLCTDT_VERSION vs on vs.Trainid=ctdt.ID
+inner join tb_SUNSIS_HCMUNRE_QLCTDT_NK ctdtnk on ctdtnk.Version=vs.ID
+inner join tb_SUNSIS_HCMUNRE_Danhmuc_NienKhoa nk on nk.ID=ctdtnk.ayyear
+where nk.ID=[NienKhoa_Id] and cn.ID=[Chuyennganh_Id]}
+
+select * from tb_SUNSIS_HCMUNRE_QLCTDT_NK where ID=454
+
+{select ctdtnk.ID from tb_SUNSIS_HCMUNRE_QLCTDT_NK ctdtnk inner join tb_SUNSIS_HCMUNRE_Danhmuc_NienKhoa nk on nk.ID=ctdtnk.ayyear
+inner join tb_SUNSIS_HCMUNRE_QLCTDT_VERSION vs on vs.ID=ctdtnk.Version
+inner join tb_SUNSIS_HCMUNRE_QLCTDT_CTDT ctdt on ctdt.ID=vs.Trainid
+inner join tb_SUNSIS_HCMUNRE_Danhmuc_chuyennganh cn on cn.ID=ctdt.majorfield}
+where nk.ID=48 and cn.ID=105
+
+
+
+{select ctdtnk.* from tb_SUNSIS_HCMUNRE_QLCTDT_NK ctdtnk inner join tb_SUNSIS_HCMUNRE_QLCTDT_VERSION vs on vs.ID=ctdtnk.Version
+inner join tb_SUNSIS_HCMUNRE_QLCTDT_CTDT ctdt on ctdt.ID=vs.Trainid
+where ctdt.majorfield=[Chuyennganh_Id] and ctdtnk.ayyear=[NienKhoa_Id]}
+
+
+
+select * from tb_SUNSIS_HCMUNRE_QLCTDT_VERSION where Trainid
+
+
+{select * from tb_SUNSIS_HCMUNRE_QLCTDT_NK where ayyear=[NienKhoa_Id]}
+
+select * from tb_SUNSIS_HCMUNRE_QLLH_LH
+select * from tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc
+delete from tb_SUNSIS_HCMUNRE_QLLH_LH where ID=6123
+exec sp_tb_SUNSIS_HCMUNRE_QLLH_LH_TaoLopMonHoc 6122
+delete from tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc where ID>93214 and ID<93258
+select * from tb_SUNSIS_HCMUNRE_Danhmuc_NienKhoa where ID=67
+select * from tb_SUNSIS_HCMUNRE_QLCTDT_VERSION where Code='E55B4045E5FE4320A0BFCE8DF837212F'
+select * from tb_SUNSIS_HCMUNRE_QLCTDT_NK where Version=1401 
+select * from tb_SUNSIS_HCMUNRE_QLCTDT_VERSION where Trainid=1659
+
+select *
+--delete 
+from tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc where ID>93214 and ID<93258
+
+
+exec sp_tb_SUNSIS_HCMUNRE_QLLH_LH_TaoLopMonHoc 6214
+
+
+select * from tb_SUNSIS_HCMUNRE_SV_Sinhvien sv inner join
+
+select * from tb_SUNSIS_HCMUNRE_Danhmuc_khoa
+SELECT distinct tb_SUNSIS_HCMUNRE_Danhmuc_khoa.name 
+FROM            dbo.tb_SUNSIS_HCMUNRE_SV_Sinhvien LEFT OUTER JOIN
+                         dbo.tb_SUNSIS_HCMUNRE_QLCTDT_NK LEFT OUTER JOIN
+                         dbo.tb_SUNSIS_HCMUNRE_QLCTDT_CTDT INNER JOIN
+                         dbo.tb_SUNSIS_HCMUNRE_Danhmuc_chuyennganh ON dbo.tb_SUNSIS_HCMUNRE_QLCTDT_CTDT.majorfield = dbo.tb_SUNSIS_HCMUNRE_Danhmuc_chuyennganh.ID INNER JOIN
+                         dbo.tb_SUNSIS_HCMUNRE_Danhmuc_nganh INNER JOIN
+                         dbo.tb_SUNSIS_HCMUNRE_Danhmuc_khoa ON dbo.tb_SUNSIS_HCMUNRE_Danhmuc_nganh.khoa = dbo.tb_SUNSIS_HCMUNRE_Danhmuc_khoa.ID ON 
+                         dbo.tb_SUNSIS_HCMUNRE_Danhmuc_chuyennganh.field = dbo.tb_SUNSIS_HCMUNRE_Danhmuc_nganh.ID INNER JOIN
+                         dbo.tb_SUNSIS_HCMUNRE_Danhmuc_loaihinhdaotao INNER JOIN
+                         dbo.tb_SUNSIS_HCMUNRE_DM_HDT ON dbo.tb_SUNSIS_HCMUNRE_Danhmuc_loaihinhdaotao.ID = dbo.tb_SUNSIS_HCMUNRE_DM_HDT.formid INNER JOIN
+                         dbo.tb_SUNSIS_HCMUNRE_Danhmuc_bacdaotao ON dbo.tb_SUNSIS_HCMUNRE_DM_HDT.degreeid = dbo.tb_SUNSIS_HCMUNRE_Danhmuc_bacdaotao.ID ON 
+                         dbo.tb_SUNSIS_HCMUNRE_Danhmuc_nganh.HeDaoTao_ID = dbo.tb_SUNSIS_HCMUNRE_DM_HDT.ID LEFT OUTER JOIN
+                         dbo.tb_SUNSIS_HCMUNRE_QLCTDT_VERSION ON dbo.tb_SUNSIS_HCMUNRE_QLCTDT_CTDT.ID = dbo.tb_SUNSIS_HCMUNRE_QLCTDT_VERSION.Trainid ON 
+                         dbo.tb_SUNSIS_HCMUNRE_QLCTDT_NK.Version = dbo.tb_SUNSIS_HCMUNRE_QLCTDT_VERSION.ID LEFT OUTER JOIN
+                         dbo.tb_SUNSIS_HCMUNRE_Danhmuc_NienKhoa ON dbo.tb_SUNSIS_HCMUNRE_QLCTDT_NK.ayyear = dbo.tb_SUNSIS_HCMUNRE_Danhmuc_NienKhoa.ID LEFT OUTER JOIN
+                         dbo.tb_SUNSIS_HCMUNRE_QLLH_LH ON dbo.tb_SUNSIS_HCMUNRE_QLCTDT_NK.ID = dbo.tb_SUNSIS_HCMUNRE_QLLH_LH.ayversion ON 
+                         dbo.tb_SUNSIS_HCMUNRE_SV_Sinhvien.Adminclassid = dbo.tb_SUNSIS_HCMUNRE_QLLH_LH.ID
+
+
+select dssv.* from tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc_DSSinhVien dssv inner join tb_SUNSIS_HCMUNRE_SV_Sinhvien sv on dssv.SinhVien_ID=sv.ID
+where sv.Code='0250080053'
+
+
+
+select * from tb_SUNSIS_HCMUNRE_QLCTDT_VERSION
+
+select * from tb_SUNSIS_HCMUNRE_QLCTDT_MonhocVS where Versionid=1402
+
+delete from tb_SUNSIS_HCMUNRE_QLCTDT_MonhocVS where Versionid=1403
+select * from tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc_DSSinhVien
+
+
+select * from fnSplitString((select NienKhoa_Id from tb_SUNSIS_HCMUNRE_QLD_QuyDinhKetQua where ID = 2),';')
+
+
+
+
+--update hoc ky bang lop mon hoc
+update lmh set lmh.HocKy=hk.ID from Import_HocKy imp inner join tb_SUNSIS_HCMUNRE_QLLH_LH lh on lh.name=imp.CLASSNAME
+inner join tb_SUNSIS_HCMUNRE_QLCTDT_MH mh on mh.code=imp.CODE
+inner join tb_SUNSIS_HCMUNRE_QLCTDT_NK ctdtnk on lh.ayversion=ctdtnk.ID
+inner join tb_SUNSIS_HCMUNRE_Danhmuc_NienKhoa nk on nk.ID=ctdtnk.ayyear
+inner join tb_SUNSIS_HCMUNRE_DM_HK hk on hk.ayid=nk.ID and imp.SEMESTER=hk.NamHoc_HocKy and imp.SYMBOL=nk.Symbol
+inner join tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc lmh on lh.Id=lmh.Lophoc_Id and lmh.MonHoc=mh.id
+where imp.[E#CLASSNAME||'_'||B#CODE]=lmh.Ma_LopHoc
+
+
+
+--Tính điểm trung bình hệ 10
+create sp_tb_SUNSIS_HCMUNRE_QLD_DiemTrungBinhHe10
+@LopHoc_Id int,
+@HocKy_Id int,
+as
+begin
+	select sum(mh.CourseCredit*diem.Diem_TongKet)/(sum(mh.CourseCredit))  
+	from tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc_DSSinhVien diem inner join tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc lmh on lmh.ID=diem.Lop_MonHoc
+	inner join tb_SUNSIS_HCMUNRE_QLCTDT_MH mh on mh.id=lmh.MonHoc
+	inner join tb_SUNSIS_HCMUNRE_QLLH_LH lh on lh.ID=lmh.Lophoc_Id
+	inner join tb_SUNSIS_HCMUNRE_QLCTDT_NK ctdtnk on lh.ayversion=ctdtnk.ID
+	inner join tb_SUNSIS_HCMUNRE_Danhmuc_NienKhoa nk on nk.ID=ctdtnk.ayyear
+	inner join tb_SUNSIS_HCMUNRE_QLD_QuyDinhKetQua qdkq on nk.Id=qdkq.NienKhoa_Id
+	group by diem.
+end
+
+
+select * from tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc_DSSinhVien
+
+select * from tb_SUNSIS_HCMUNRE_SV_Sinhvien where Code='0250080007'177039
+select * from tb_SUNSIS_HCMUNRE_QLLH_LH WHERE ID=5835
+SELECT DISTINCT b.HocKy,a.SinhVien_ID
+,((sum(c.CourseCredit*a.Diem_He4) over(PARTITION BY a.SinhVien_ID, b.HocKy))/(sum (c.CourseCredit) over(PARTITION BY a.SinhVien_ID, b.HocKy))) as DTB
+FROM tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc_DSSinhVien a
+inner join tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc b
+inner join tb_SUNSIS_HCMUNRE_QLCTDT_MH c
+on c.id=b.MonHoc
+on a.Lop_MonHoc=b.ID
+where a.SinhVien_ID=154618 --and b.HocKy='2013_2014_2'
+
+
+
+
+
+select *  from Import_HocKy order by Motalop asc
+select * from tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc order by Ma_LopHoc asc
+
+select * from tb_SUNSIS_HCMUNRE_QLLH_LH
+
+select * from tb_SUNSIS_HCMUNRE_Danhmuc_NienKhoa a inner join tb_SUNSIS_HCMUNRE_DM_HK b on a.Id=b.ayid
+
+
+
+125.212.244.168,12500
+hcmunre.sunis
+hcmunre@2017
+
+
+Import_HocKy
+nguyenngocchan
+chan@gsot2018
