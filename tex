@@ -522,7 +522,7 @@ where e.code='02_ĐHCNTT_1'
 
 
 
-select sv.ID,lmh.ID,dt.QT,dt.THI,dt.TKHP,khd.id,dt.Ketqua,dt.He4,dt.Lanhoc,dt.HP1,dt.HP2,dt.HP3,dt.HP4  from DataImport dt left join tb_SUNSIS_HCMUNRE_SV_Sinhvien sv on dt.MSSV=sv.Code
+ select sv.ID,lmh.ID,dt.QT,dt.THI,dt.TKHP,khd.id,dt.Ketqua,dt.He4,dt.Lanhoc,dt.HP1,dt.HP2,dt.HP3,dt.HP4  from DataImport dt left join tb_SUNSIS_HCMUNRE_SV_Sinhvien sv on dt.MSSV=sv.Code
 left join tb_SUNSIS_HCMUNRE_QLLH_LH lh on lh.name=dt.CLASSNAME
 left join tb_SUNSIS_HCMUNRE_QLCTDT_MH mh on mh.Code=dt.MAMH
 left join tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc lmh on lmh.Lophoc_Id=lh.ID and lmh.MonHoc=mh.ID
@@ -540,219 +540,6 @@ left join tb_SUNSIS_HCMUNRE_QLD_KyHieuDiem khd on dt.Kyhieudiem=khd.code
 where dt.MSSV='0250080007'
 
 
-select lmh.HocKy,mh.CourseCredit,lmhdssv.Diem_He4 from tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc_DSSinhVien lmhdssv
-inner join tb_SUNSIS_HCMUNRE_SV_Sinhvien sv on lmhdssv.SinhVien_ID=sv.ID
-inner join tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc lmh on lmh.ID=lmhdssv.Lop_MonHoc
-inner join tb_SUNSIS_HCMUNRE_QLCTDT_MH mh on mh.ID=lmh.MonHoc
-where sv.Code='0250080007'
-order by lmh.HocKy asc
-
-
-SELECT c.CourseName,a.SinhVien_ID,a.Diem_He4,c.CourseCredit,b.HocKy
-FROM tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc_DSSinhVien a
-inner join tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc b
-inner join tb_SUNSIS_HCMUNRE_QLCTDT_MH c
-on c.id=b.MonHoc
-on a.Lop_MonHoc=b.ID
-where a.SinhVien_ID=154618 and b.HocKy='2013_2014_1' 
-
-
-select * from tb_SUNSIS_HCMUNRE_SV_Sinhvien where code='0250080007'
-
-
-SELECT c.CourseName,a.SinhVien_ID,a.Diem_He4,c.CourseCredit,b.HocKy 
-,((sum(c.CourseCredit*a.Diem_He4) over(PARTITION BY a.SinhVien_ID))/(sum (c.CourseCredit) over(PARTITION BY a.SinhVien_ID))) as DTB
-FROM tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc_DSSinhVien a
-inner join tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc b
-inner join tb_SUNSIS_HCMUNRE_QLCTDT_MH c
-on c.id=b.MonHoc
-on a.Lop_MonHoc=b.ID
-where a.SinhVien_ID=154618 and b.HocKy='2013_2014_1'
-
-
-
-
-SELECT DISTINCT b.HocKy,a.SinhVien_ID
-,((sum(c.CourseCredit*a.Diem_He4) over(PARTITION BY a.SinhVien_ID, b.HocKy))/(sum (c.CourseCredit) over(PARTITION BY a.SinhVien_ID, b.HocKy))) as DTB
-FROM tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc_DSSinhVien a
-inner join tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc b
-inner join tb_SUNSIS_HCMUNRE_QLCTDT_MH c
-on c.id=b.MonHoc
-on a.Lop_MonHoc=b.ID
-where a.SinhVien_ID=154618 --and b.HocKy='2013_2014_2'
-
-delete from tb_SUNSIS_HCMUNRE_QLCTDT_CTDT
-select * from tb_SUNSIS_HCMUNRE_Danhmuc_chuyennganh
-delete from tb_SUNSIS_HCMUNRE_QLCTDT_VERSION
-delete from tb_SUNSIS_HCMUNRE_QLCTDT_MonhocVS
-
-
-select * from tb_SUNSIS_HCMUNRE_QLCTDT_VERSION a inner join tb_SUNSIS_HCMUNRE_QLCTDT_MonhocVS b
-on a.id=b.Versionid
-
-delete from tb_SUNSIS_HCMUNRE_QLLH_LH
-select * from tb_SUNSIS_HCMUNRE_SV_Sinhvien
-delete from tb_SUNSIS_HCMUNRE_SV_Sinhvien
-select * from tbAccountInfo
-delete from tbAccountInfo where colType=32
-
-select * from tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc
-delete from tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc
-
-
-
-select *from tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc_DSSinhVien
-delete from tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc_DSSinhVien
-22214
-
-
-{select * from tb_SUNSIS_HCMUNRE_Danhmuc_chuyennganh where ID
- in (select majorfield from tb_SUNSIS_HCMUNRE_QLCTDT_CTDT ctdt inner join tb_SUNSIS_HCMUNRE_QLCTDT_VERSION vs on ctdt.ID=vs.Trainid 
- inner join tb_SUNSIS_HCMUNRE_QLCTDT_NK ctdtnk on vs.ID=ctdtnk.Version
- inner join tb_SUNSIS_HCMUNRE_Danhmuc_NienKhoa nk on nk.ID=ctdtnk.ayyear  where nk.Id=40)}
-
-
- select * from tb_SUNSIS_HCMUNRE_Danhmuc_NienKhoa
-
-
-{ select * from tb_SUNSIS_HCMUNRE_QLLH_LH where ayversion in
- (select nk.ID from tb_SUNSIS_HCMUNRE_QLCTDT_NK nk inner join tb_SUNSIS_HCMUNRE_QLCTDT_VERSION ver on nk.Version=ver.ID 
- inner join tb_SUNSIS_HCMUNRE_QLCTDT_CTDT ctdt on ver.Trainid=ctdt.ID inner join tb_SUNSIS_HCMUNRE_Danhmuc_chuyennganh cn on cn.ID=ctdt.majorfield
- inner join tb_SUNSIS_HCMUNRE_Danhmuc_NienKhoa dmnk on dmnk.ID=nk.ayyear
-  where cn.ID=[Major] and dmnk.ID=[Ayid])}
-
-  {select * from tb_SUNSIS_HCMUNRE_Danhmuc_bacdaotao where ID in(select degreeid from tb_SUNSIS_HCMUNRE_DM_HDT where ID=40)}
-
-  select * from tb_SUNSIS_HCMUNRE_DM_HK
-  select * from tb_SUNSIS_HCMUNRE_QLCTDT_HK
-  select * from tb_SUNSIS_HCMUNRE_SV_Sinhvien
-
-
-
-  {select * from tb_SUNSIS_HCMUNRE_Danhmuc_chuyennganh where ID in(select majorfield from tb_SUNSIS_HCMUNRE_DM_HDT where trainid=[Trainid])}
-
-    {select * from tb_SUNSIS_HCMUNRE_Danhmuc_chuyennganh where ID in(select majorfield from tb_SUNSIS_HCMUNRE_DM_HDT where trainid=[Trainid])}
-select * from tb_SUNSIS_HCMUNRE_Danhmuc_chuyennganh chuyennganh inner join tb_SUNSIS_HCMUNRE_Danhmuc_nganh nganh on nganh.ID=chuyennganh.field
-
-
-
-{select chuyennganh.* from tb_SUNSIS_HCMUNRE_Danhmuc_chuyennganh chuyennganh inner join tb_SUNSIS_HCMUNRE_Danhmuc_nganh nganh on nganh.ID=chuyennganh.field
-inner join tb_SUNSIS_HCMUNRE_DM_HDT hdt on nganh.HeDaoTao_ID=hdt.ID where hdt.ID=14}
-
-select ctdt.* from tb_SUNSIS_HCMUNRE_QLCTDT_CTDT ctdt inner join vw_tb_SUNSIS_HCMUNRE_Danhmuc_chuyennganh cn on
-cn.ID=ctdt.majorfield
-inner join tb_SUNSIS_HCMUNRE_Danhmuc_nganh nganh on nganh.ID=cn.field
-inner join tb_SUNSIS_HCMUNRE_DM_HDT hdt on nganh.HeDaoTao_ID=hdt.ID
-where  cn.ID=122
-
-
-{select * from tb_SUNSIS_HCMUNRE_QLCTDT_VERSION where Trainid in (select ID from tb_SUNSIS_HCMUNRE_QLCTDT_CTDT where ID=1583)}
-
-
-{select * from tb_SUNSIS_HCMUNRE_Danhmuc_khoa khoa inner join tb_SUNSIS_HCMUNRE_Danhmuc_nganh nganh on khoa.ID=nganh.khoa
-inner join tb_SUNSIS_HCMUNRE_Danhmuc_chuyennganh chuyennganh on chuyennganh.field=nganh.ID
-where chuyennganh.ID=[Major]}
-
-	{select nganh.* from tb_SUNSIS_HCMUNRE_Danhmuc_nganh  nganh inner join tb_SUNSIS_HCMUNRE_Danhmuc_chuyennganh chuyennganh
-	on nganh.ID=chuyennganh.field where chuyennganh.ID=[Major]}
-
-
-{select vs.* from tb_SUNSIS_HCMUNRE_Danhmuc_chuyennganh  cn inner join tb_SUNSIS_HCMUNRE_QLCTDT_CTDT ctdt on cn.ID=ctdt.majorfield
-inner join tb_SUNSIS_HCMUNRE_QLCTDT_VERSION vs on vs.Trainid=ctdt.ID
-inner join tb_SUNSIS_HCMUNRE_QLCTDT_NK ctdtnk on ctdtnk.Version=vs.ID
-inner join tb_SUNSIS_HCMUNRE_Danhmuc_NienKhoa nk on nk.ID=ctdtnk.ayyear
-where nk.ID=[NienKhoa_Id] and cn.ID=[Chuyennganh_Id]}
-select count(*) from tb_SUNSIS_HCMUNRE_QLLH_LH
-select * from tb_SUNSIS_HCMUNRE_QLCTDT_MH
-
-select * from tb_SUNSIS_HCMUNRE_Danhmuc_khoikienthuc where ID in(select SubjectID from tb_SUNSIS_HCMUNRE_QLCTDT_MH where ID=2227)
-
-
-select * from DataImport where MSSV='0250080007'
-
-
-select * from tb_SUNSIS_HCMUNRE_QLLH_LH
-delete from tb_SUNSIS_HCMUNRE_QLLH_LH where Id=6119
-
-
-{select ctdtnk.* from tb_SUNSIS_HCMUNRE_Danhmuc_chuyennganh  cn inner join tb_SUNSIS_HCMUNRE_QLCTDT_CTDT ctdt on cn.ID=ctdt.majorfield
-inner join tb_SUNSIS_HCMUNRE_QLCTDT_VERSION vs on vs.Trainid=ctdt.ID
-inner join tb_SUNSIS_HCMUNRE_QLCTDT_NK ctdtnk on ctdtnk.Version=vs.ID
-inner join tb_SUNSIS_HCMUNRE_Danhmuc_NienKhoa nk on nk.ID=ctdtnk.ayyear
-where nk.ID=[NienKhoa_Id] and cn.ID=[Chuyennganh_Id]}
-
-select * from tb_SUNSIS_HCMUNRE_QLCTDT_NK where ID=454
-
-{select ctdtnk.ID from tb_SUNSIS_HCMUNRE_QLCTDT_NK ctdtnk inner join tb_SUNSIS_HCMUNRE_Danhmuc_NienKhoa nk on nk.ID=ctdtnk.ayyear
-inner join tb_SUNSIS_HCMUNRE_QLCTDT_VERSION vs on vs.ID=ctdtnk.Version
-inner join tb_SUNSIS_HCMUNRE_QLCTDT_CTDT ctdt on ctdt.ID=vs.Trainid
-inner join tb_SUNSIS_HCMUNRE_Danhmuc_chuyennganh cn on cn.ID=ctdt.majorfield}
-where nk.ID=48 and cn.ID=105
-
-
-
-{select ctdtnk.* from tb_SUNSIS_HCMUNRE_QLCTDT_NK ctdtnk inner join tb_SUNSIS_HCMUNRE_QLCTDT_VERSION vs on vs.ID=ctdtnk.Version
-inner join tb_SUNSIS_HCMUNRE_QLCTDT_CTDT ctdt on ctdt.ID=vs.Trainid
-where ctdt.majorfield=[Chuyennganh_Id] and ctdtnk.ayyear=[NienKhoa_Id]}
-
-
-
-select * from tb_SUNSIS_HCMUNRE_QLCTDT_VERSION where Trainid
-
-
-{select * from tb_SUNSIS_HCMUNRE_QLCTDT_NK where ayyear=[NienKhoa_Id]}
-
-select * from tb_SUNSIS_HCMUNRE_QLLH_LH
-select * from tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc
-delete from tb_SUNSIS_HCMUNRE_QLLH_LH where ID=6123
-exec sp_tb_SUNSIS_HCMUNRE_QLLH_LH_TaoLopMonHoc 6122
-delete from tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc where ID>93214 and ID<93258
-select * from tb_SUNSIS_HCMUNRE_Danhmuc_NienKhoa where ID=67
-select * from tb_SUNSIS_HCMUNRE_QLCTDT_VERSION where Code='E55B4045E5FE4320A0BFCE8DF837212F'
-select * from tb_SUNSIS_HCMUNRE_QLCTDT_NK where Version=1401 
-select * from tb_SUNSIS_HCMUNRE_QLCTDT_VERSION where Trainid=1659
-
-select *
---delete 
-from tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc where ID>93214 and ID<93258
-
-
-exec sp_tb_SUNSIS_HCMUNRE_QLLH_LH_TaoLopMonHoc 6214
-
-
-select * from tb_SUNSIS_HCMUNRE_SV_Sinhvien sv inner join
-
-select * from tb_SUNSIS_HCMUNRE_Danhmuc_khoa
-SELECT distinct tb_SUNSIS_HCMUNRE_Danhmuc_khoa.name 
-FROM            dbo.tb_SUNSIS_HCMUNRE_SV_Sinhvien LEFT OUTER JOIN
-                         dbo.tb_SUNSIS_HCMUNRE_QLCTDT_NK LEFT OUTER JOIN
-                         dbo.tb_SUNSIS_HCMUNRE_QLCTDT_CTDT INNER JOIN
-                         dbo.tb_SUNSIS_HCMUNRE_Danhmuc_chuyennganh ON dbo.tb_SUNSIS_HCMUNRE_QLCTDT_CTDT.majorfield = dbo.tb_SUNSIS_HCMUNRE_Danhmuc_chuyennganh.ID INNER JOIN
-                         dbo.tb_SUNSIS_HCMUNRE_Danhmuc_nganh INNER JOIN
-                         dbo.tb_SUNSIS_HCMUNRE_Danhmuc_khoa ON dbo.tb_SUNSIS_HCMUNRE_Danhmuc_nganh.khoa = dbo.tb_SUNSIS_HCMUNRE_Danhmuc_khoa.ID ON 
-                         dbo.tb_SUNSIS_HCMUNRE_Danhmuc_chuyennganh.field = dbo.tb_SUNSIS_HCMUNRE_Danhmuc_nganh.ID INNER JOIN
-                         dbo.tb_SUNSIS_HCMUNRE_Danhmuc_loaihinhdaotao INNER JOIN
-                         dbo.tb_SUNSIS_HCMUNRE_DM_HDT ON dbo.tb_SUNSIS_HCMUNRE_Danhmuc_loaihinhdaotao.ID = dbo.tb_SUNSIS_HCMUNRE_DM_HDT.formid INNER JOIN
-                         dbo.tb_SUNSIS_HCMUNRE_Danhmuc_bacdaotao ON dbo.tb_SUNSIS_HCMUNRE_DM_HDT.degreeid = dbo.tb_SUNSIS_HCMUNRE_Danhmuc_bacdaotao.ID ON 
-                         dbo.tb_SUNSIS_HCMUNRE_Danhmuc_nganh.HeDaoTao_ID = dbo.tb_SUNSIS_HCMUNRE_DM_HDT.ID LEFT OUTER JOIN
-                         dbo.tb_SUNSIS_HCMUNRE_QLCTDT_VERSION ON dbo.tb_SUNSIS_HCMUNRE_QLCTDT_CTDT.ID = dbo.tb_SUNSIS_HCMUNRE_QLCTDT_VERSION.Trainid ON 
-                         dbo.tb_SUNSIS_HCMUNRE_QLCTDT_NK.Version = dbo.tb_SUNSIS_HCMUNRE_QLCTDT_VERSION.ID LEFT OUTER JOIN
-                         dbo.tb_SUNSIS_HCMUNRE_Danhmuc_NienKhoa ON dbo.tb_SUNSIS_HCMUNRE_QLCTDT_NK.ayyear = dbo.tb_SUNSIS_HCMUNRE_Danhmuc_NienKhoa.ID LEFT OUTER JOIN
-                         dbo.tb_SUNSIS_HCMUNRE_QLLH_LH ON dbo.tb_SUNSIS_HCMUNRE_QLCTDT_NK.ID = dbo.tb_SUNSIS_HCMUNRE_QLLH_LH.ayversion ON 
-                         dbo.tb_SUNSIS_HCMUNRE_SV_Sinhvien.Adminclassid = dbo.tb_SUNSIS_HCMUNRE_QLLH_LH.ID
-
-
-select dssv.* from tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc_DSSinhVien dssv inner join tb_SUNSIS_HCMUNRE_SV_Sinhvien sv on dssv.SinhVien_ID=sv.ID
-where sv.Code='0250080053'
-
-
-
-select * from tb_SUNSIS_HCMUNRE_QLCTDT_VERSION
-
-select * from tb_SUNSIS_HCMUNRE_QLCTDT_MonhocVS where Versionid=1402
-
-delete from tb_SUNSIS_HCMUNRE_QLCTDT_MonhocVS where Versionid=1403
-select * from tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc_DSSinhVien
 
 
 select * from fnSplitString((select NienKhoa_Id from tb_SUNSIS_HCMUNRE_QLD_QuyDinhKetQua where ID = 2),';')
@@ -772,26 +559,36 @@ where imp.[E#CLASSNAME||'_'||B#CODE]=lmh.Ma_LopHoc
 
 
 --Tính điểm trung bình hệ 10
-create sp_tb_SUNSIS_HCMUNRE_QLD_DiemTrungBinhHe10
+create proc sp_tb_SUNSIS_HCMUNRE_QLD_DiemTrungBinhHe10
 @LopHoc_Id int,
-@HocKy_Id int,
+@HocKy_Id int
 as
 begin
-	select sum(mh.CourseCredit*diem.Diem_TongKet)/(sum(mh.CourseCredit))  
-	from tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc_DSSinhVien diem inner join tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc lmh on lmh.ID=diem.Lop_MonHoc
-	inner join tb_SUNSIS_HCMUNRE_QLCTDT_MH mh on mh.id=lmh.MonHoc
-	inner join tb_SUNSIS_HCMUNRE_QLLH_LH lh on lh.ID=lmh.Lophoc_Id
-	inner join tb_SUNSIS_HCMUNRE_QLCTDT_NK ctdtnk on lh.ayversion=ctdtnk.ID
-	inner join tb_SUNSIS_HCMUNRE_Danhmuc_NienKhoa nk on nk.ID=ctdtnk.ayyear
-	inner join tb_SUNSIS_HCMUNRE_QLD_QuyDinhKetQua qdkq on nk.Id=qdkq.NienKhoa_Id
-	group by diem.
+declare @NienKhoa_Id int
+declare @MonHoc_Id int
+select @MonHoc_Id=lmh.MonHoc from tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc lmh 
+select @NienKhoa_Id=nk.ID from tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc lmh
+inner join tb_SUNSIS_HCMUNRE_QLLH_LH lh on lh.ID=lmh.Lophoc_Id
+inner join tb_SUNSIS_HCMUNRE_QLCTDT_MH mh on mh.ID=lmh.MonHoc
+inner join tb_SUNSIS_HCMUNRE_QLCTDT_NK ctdtnk on lh.ayversion=ctdtnk.ID
+inner join tb_SUNSIS_HCMUNRE_Danhmuc_NienKhoa nk on nk.ID=ctdtnk.ayyear
+declare @dk int
+select @dk=count(*) from tb_SUNSIS_HCMUNRE_QLD_QuyDinhKetQua where ';'+NienKhoa_Id+';' Like '%;40;%' and ';'+MonHoc_Id+';' Like '%;2243%;'
+	if(@dk=0)
+		begin
+			select diem.SinhVien_ID,sum(mh.CourseCredit*diem.Diem_TongKet)/(sum(mh.CourseCredit)) as diem from tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc_DSSinhVien diem inner join tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc lmh
+			on lmh.ID=diem.Lop_MonHoc
+			inner join tb_SUNSIS_HCMUNRE_QLLH_LH lh on lh.ID=lmh.Lophoc_Id
+			inner join tb_SUNSIS_HCMUNRE_QLCTDT_MH mh on mh.ID=lmh.MonHoc
+			inner join tb_SUNSIS_HCMUNRE_QLCTDT_NK ctdtnk on lh.ayversion=ctdtnk.ID
+			inner join tb_SUNSIS_HCMUNRE_Danhmuc_NienKhoa nk on nk.ID=ctdtnk.ayyear
+			group by diem.SinhVien_ID,lmh.HocKy
+			having diem.SinhVien_ID=177039
+		end
 end
 
 
-select * from tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc_DSSinhVien
 
-select * from tb_SUNSIS_HCMUNRE_SV_Sinhvien where Code='0250080007'177039
-select * from tb_SUNSIS_HCMUNRE_QLLH_LH WHERE ID=5835
 SELECT DISTINCT b.HocKy,a.SinhVien_ID
 ,((sum(c.CourseCredit*a.Diem_He4) over(PARTITION BY a.SinhVien_ID, b.HocKy))/(sum (c.CourseCredit) over(PARTITION BY a.SinhVien_ID, b.HocKy))) as DTB
 FROM tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc_DSSinhVien a
@@ -800,17 +597,30 @@ inner join tb_SUNSIS_HCMUNRE_QLCTDT_MH c
 on c.id=b.MonHoc
 on a.Lop_MonHoc=b.ID
 where a.SinhVien_ID=154618 --and b.HocKy='2013_2014_2'
+select * from tb_SUNSIS_HCMUNRE_SV_Sinhvien where Code='0250080007'
 
+select * from tb_SUNSIS_HCMUNRE_QLD_QuyDinhKetQua
+select * from tb_SUNSIS_HCMUNRE_QLLH_LH order by name asc
 
+exec sp_tb_SUNSIS_HCMUNRE_QLD_DiemTrungBinhHe10 5838,4017725
+go
+select diem.SinhVien_ID,sum(mh.CourseCredit*diem.Diem_TongKet)/(sum(mh.CourseCredit)) as diem from tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc_DSSinhVien diem inner join tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc lmh
+			on lmh.ID=diem.Lop_MonHoc
+			inner join tb_SUNSIS_HCMUNRE_QLLH_LH lh on lh.ID=lmh.Lophoc_Id
+			inner join tb_SUNSIS_HCMUNRE_QLCTDT_MH mh on mh.ID=lmh.MonHoc
+			inner join tb_SUNSIS_HCMUNRE_QLCTDT_NK ctdtnk on lh.ayversion=ctdtnk.ID
+			inner join tb_SUNSIS_HCMUNRE_Danhmuc_NienKhoa nk on nk.ID=ctdtnk.ayyear
+			where 
+			group by diem.SinhVien_ID,lmh.HocKy
+			having diem.SinhVien_ID=177039
+5838
+4017725
 
+select * from tb_SUNSIS_HCMUNRE_Danhmuc_NienKhoa nk inner join tb_SUNSIS_HCMUNRE_DM_HK hk on nk.id=hk.ayid where nk.id=66
+select * from tb_SUNSIS_HCMUNRE_QLD_DiemTrungBinh order by SinhVien_Id asc
+delete from tb_SUNSIS_HCMUNRE_QLD_DiemTrungBinh
+exec sp_tb_SUNSIS_HCMUNRE_QLD_DiemTrungBinh 5838,4017725
 
-
-select *  from Import_HocKy order by Motalop asc
-select * from tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc order by Ma_LopHoc asc
-
-select * from tb_SUNSIS_HCMUNRE_QLLH_LH
-
-select * from tb_SUNSIS_HCMUNRE_Danhmuc_NienKhoa a inner join tb_SUNSIS_HCMUNRE_DM_HK b on a.Id=b.ayid
 
 
 
