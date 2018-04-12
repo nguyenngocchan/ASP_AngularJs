@@ -89,3 +89,54 @@ https://svn.gsotgroup.vn:8443/svn/AdminTool
     })
 
 </script>
+UtilitiesController.cs
+ public ActionResult RunCommand(string formActionID)
+        {
+            int rowID = -1;
+            try
+            {
+                rowID = int.Parse(DataAccessContants.DataProvider.Decrypt_Try_Encode(formActionID));
+            }
+            catch
+            {
+
+            }            
+            if (rowID == -1)
+            {               
+                return Content("-1");
+            }
+
+            DataTable tbGenTableDefine_FormAction = new DataTable("GenTableDefine_FormAction");
+            DataAccessContants.DataProvider.FillTable(ref tbGenTableDefine_FormAction, "Select * from tbGenTableDefine_FormAction Where ID=" + formActionID);
+            if (tbGenTableDefine_FormAction.Rows.Count == 0)
+            {
+                return Content("-1");
+            }
+            DataRowView drv = tbGenTableDefine_FormAction.DefaultView[0];
+            string sql = "";
+            if (drv["SQLBefore"] != DBNull.Value)
+            {
+                sql = drv["SQLBefore"].ToString();
+            }
+            sql = sql.Replace("{", "");
+            sql = sql.Replace("}", "");
+
+            string param = Request.QueryString.ToString();
+            NameValueCollection qscoll = HttpUtility.ParseQueryString(param);
+            foreach (string key in qscoll)
+            {
+                var value = qscoll[key];
+                if (value.IndexOf(";") >= 0)
+                {
+                    value = " IN (" + value.Replace(";", ",") + ")";
+                    sql = sql.Replace("=[" + key + "]", value);
+                    sql = sql.Replace("= [" + key + "]", value);
+                }
+                else
+                    sql = sql.Replace("[" + key + "]", value);
+            }
+            sql = DataAccessContants.DataProvider.ReplaceDefault(sql);
+
+            int er= DataAccessContants.DataProvider.ExecuteCommand(sql);
+            return Content(er.ToString());
+        }
