@@ -1,4 +1,3 @@
-https://svn.gsotgroup.vn:8443/svn/AdminTool
 @using System.Security.AccessControl
 @using Modules.Common
 @using Modules.Common.Data
@@ -31,6 +30,7 @@ https://svn.gsotgroup.vn:8443/svn/AdminTool
             </label>
         </div>
     </div>
+</div>
 @Html.Partial("~/Areas/AppCommon/Views/Shared/EditFormPartial.cshtml", new EditDataModel
 {
     TableName = "vw_tb_SUNSIS_HCMUNRE_QLD_TinhDiemTrungBinh",
@@ -53,6 +53,7 @@ https://svn.gsotgroup.vn:8443/svn/AdminTool
     UseAjax = false,
     ShowHeader = false
 })
+</div>
 <style>
     /*#div_HocKy_Id, #vw_tb_SUNSIS_HCMUNRE_QLD_TinhDiemTrungBinh_NienKhoa-edit-form {
         display: none;
@@ -60,15 +61,39 @@ https://svn.gsotgroup.vn:8443/svn/AdminTool
 </style>
 <script type="text/javascript">
     var idSelected = [];
+    function DiemTrungBinhDaTa() {
+        var nienkhoa_id = $('select[name*="NienKhoa_Id"]').val();
+        var lophoc_id = $('select[name*="LopHoc_Id"]').val();
+        var hocky_id = $('select[name*="HocKy_Id"]').val();
+        if (lophoc_id == "-1") {
+            lophoc_id = null;
+        }
+        if (hocky_id == "-1") {
+            hocky_id = null;
+        }
+        var dataToSend= {
+            text: 'uTISRxj9FJY3h+yNENOhsV/mKDi6X6a5wRJ9A0HX6Ayn+7xZAyxnS++6nB1JIsZp7r8B9wfm+navURdWG+3OqKlyruR0dbtbbLlqs1cHg8KizKTOebsiEm1+SjdW2OWd8N3yLISiwRJ99vVbl2DUdA==',
+            paramvalue: nienkhoa_id+','+lophoc_id+','+hocky_id
+        };
+        $.post({
+            module: "",
+            url: "/AppCommon/Utilities/RunSql",
+            showMask: true,
+            async: false,
+            data: dataToSend,
+            success: function () {
+                $("body").load('DiemTrungBinh');
+            }
+            })
+        }
     $('#TinhDiem').click(function (e) {
         e.preventDefault();
-        var nienkhoa_id;
-
-
+        DiemTrungBinhDaTa();
     })
     //Radio button on change event
     $(document).ready(function () {
         $('input[name*="schoolyear"]').attr('disabled', true);
+
         $('input:radio[name=radio]').change(function () {
             if (this.value == 'Tính điểm trung bình học kỳ') {
                 $('select[name*="HocKy_Id"]').attr('disabled', false);
@@ -89,37 +114,20 @@ https://svn.gsotgroup.vn:8443/svn/AdminTool
     })
 
 </script>
-UtilitiesController.cs
- public ActionResult RunCommand(string formActionID)
+
+
+
+        public ActionResult RunSql(string text, string paramvalue)
         {
-            int rowID = -1;
-            try
+            string sql = DataAccessContants.DataProvider.Decrypt_Try_Encode(text);
+            if (sql == "")
+                return Content("Succ");
+            string[] lstParam = paramvalue.Split(',');
+            for (int i = 0; i < lstParam.Length; i++)
             {
-                rowID = int.Parse(DataAccessContants.DataProvider.Decrypt_Try_Encode(formActionID));
+             
+                sql = sql.Replace("{" + i + "}", lstParam[i]);
             }
-            catch
-            {
-
-            }            
-            if (rowID == -1)
-            {               
-                return Content("-1");
-            }
-
-            DataTable tbGenTableDefine_FormAction = new DataTable("GenTableDefine_FormAction");
-            DataAccessContants.DataProvider.FillTable(ref tbGenTableDefine_FormAction, "Select * from tbGenTableDefine_FormAction Where ID=" + formActionID);
-            if (tbGenTableDefine_FormAction.Rows.Count == 0)
-            {
-                return Content("-1");
-            }
-            DataRowView drv = tbGenTableDefine_FormAction.DefaultView[0];
-            string sql = "";
-            if (drv["SQLBefore"] != DBNull.Value)
-            {
-                sql = drv["SQLBefore"].ToString();
-            }
-            sql = sql.Replace("{", "");
-            sql = sql.Replace("}", "");
 
             string param = Request.QueryString.ToString();
             NameValueCollection qscoll = HttpUtility.ParseQueryString(param);
@@ -136,7 +144,6 @@ UtilitiesController.cs
                     sql = sql.Replace("[" + key + "]", value);
             }
             sql = DataAccessContants.DataProvider.ReplaceDefault(sql);
-
-            int er= DataAccessContants.DataProvider.ExecuteCommand(sql);
-            return Content(er.ToString());
+            int r = DataAccessContants.DataProvider.ExecuteCommand(sql);
+            return Content("Succ");
         }
