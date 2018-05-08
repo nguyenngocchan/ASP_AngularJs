@@ -1,3 +1,15 @@
+  var phrases = [];
+
+$('.phrase').each(function(){
+    var phrase = '';
+    $(this).find('a').each(function(){
+        var current = $(this);
+        if(current.children().size() > 0) {return true;}
+        phrase += $(this).text();
+    });
+    phrases.push(phrase);
+});
+alert(phrases);
 @using System.Security.AccessControl
 @using Modules.Common
 @using Modules.Common.Data
