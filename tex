@@ -1,3 +1,63 @@
+using Modules.Common.Data;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+namespace Modules.WebApp.Controllers
+{
+    public class SUNISDiemTrungBinhController : Controller
+    {
+        // GET: SUNISDiemTrungBinh
+        public ActionResult Index()
+        {
+            return View();
+        }
+        public void TinhDiemTrungBinh(int sinhvienID, int nienkhoa)
+        {
+            DataTable tb_SUNSIS_HCMUNRE_QLD_DiemTrungBinh = new DataTable("tb_SUNSIS_HCMUNRE_QLD_DiemTrungBinh");
+            DataAccessContants.DataProvider.FillTable(ref tb_SUNSIS_HCMUNRE_QLD_DiemTrungBinh, "Select");
+
+            DataTable tbTemp = new DataTable();
+            DataAccessContants.DataProvider.FillTable(ref tbTemp, "Select");
+
+            //Dung for de tinh, tinh xong gan vao 1 data
+
+            //Update
+            tb_SUNSIS_HCMUNRE_QLD_DiemTrungBinh.Rows[0]["DiemTB"] = 4.5;
+
+            //Insert
+            DataRow drnew = tb_SUNSIS_HCMUNRE_QLD_DiemTrungBinh.NewRow();
+            tb_SUNSIS_HCMUNRE_QLD_DiemTrungBinh.Rows.Add(drnew);
+            drnew["DiemTB"] = 4.5;
+            drnew["DiemChu"] = "Năm";
+            drnew["NgayTinh"] = DateTime.Now;
+
+            //Luu du lieu
+
+            DataAccessContants.DataProvider.SaveDataTableBulkCopy(tb_SUNSIS_HCMUNRE_QLD_DiemTrungBinh);
+
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*
 --diem thi dai hoc
 SELECT dhcq.HO, dhcq.TEN, dhcq.KHUVUC, dhcq.SOBAODANH, dhcq.DM1, dhcq.DM2, dhcq.DM3, dhcq.AY
