@@ -1,3 +1,18 @@
+select * from tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc_DSSinhVien where ID=2659006
+declare @nienkhoa_id int
+declare @quyche_id int
+declare @monhoc_id int
+select  @monhoc_id=lmh.MonHoc from tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc_DSSinhVien diem join tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc lmh on diem.Lop_MonHoc=lmh.ID
+select @quyche_id=nk.Quyche_Id, @monhoc_id=lmh.MonHoc from tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc_DSSinhVien diem join tb_SUNSIS_HCMUNRE_SV_Sinhvien sv on diem.SinhVien_ID=sv.ID
+join tb_SUNSIS_HCMUNRE_QLLH_LH lh on lh.id=sv.Adminclassid
+join tb_SUNSIS_HCMUNRE_QLCTDT_NK ctdtnk on ctdtnk.id=lh.ayversion
+join tb_SUNSIS_HCMUNRE_Danhmuc_NienKhoa nk on nk.id=ctdtnk.ayyear
+join tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc lmh on diem.Lop_MonHoc=lmh.ID
+where diem.id=2659006
+select @quyche_id,@monhoc_id
+
+
+
 using Modules.Common.Data;
 using System;
 using System.Collections.Generic;
