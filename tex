@@ -1,86 +1,27 @@
-@using System.Security.AccessControl
-@using Modules.Common
-@using Modules.Common.Data
-@using Modules.WebApp.Areas.AppCommon.Models.Shared
-@using System.Data
-@using System.Windows.Forms
-@using Modules.WebApp.Areas.AppCommon.Controllers
-@using Modules.WebApp.Areas.AppCommon.Models.Shared.FilterControls
-@inherits Cx.Framework.Web.Razor.CxWebViewPage<dynamic>
-@{
-    ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
-}
-<style>
 
-</style>
-<h3>Tính điểm trung bình</h3>
-<div class="row">
-    @Html.Partial("~/Areas/AppCommon/Views/Shared/InsertFormPartial.cshtml", new InsertDataModel
-    {
-        TableName = "vw_tb_SUNSIS_HCMUNRE_QLD_TinhDiemTrungBinh",
-        MoreExp = "",
-        Id = -1000,
-        Layout = "InsertForm"
-    })
-</div>
-<div class="row">
-    <div class="col-lg-12">
-        <button id="TinhDiem" type="button" style="margin:5px 0;" class="btnSubmit validate btn blue btn-lg pull-right uppercase">Tính điểm</button>
-    </div>
-</div>
-<div id="DiemTB">
-</div>
-<script type="text/javascript">
-    var idSelected = [];
-    function DiemTrungBinhDaTa() {
-        var nienkhoa_id = $('select[name*="NienKhoa_Id"]').val();
-        var lophoc_id = $('select[name*="LopHoc_Id"]').val();
-        var hocky_id = $('select[name*="HocKy_Id"]').val();
-        var sinhvien_id = $('select[name*="Sinhvien_Id"]').val();
-        var chotdiem = $('input[name="ChotDiem"]').val();
-        var namhoc = $('input[name*="schoolyear"]').val();
+Giao diện tra cứu điểm
+chỉ hiển thị điểm tổng kết và điểm cho từng học phần trong phần tra cứu
+Khi tra cứu cho phép người dùng lựa chọn có hiển thị điểm chi tiết từng học phần không
+tùy theo option xuất file excel tương ứng
+Lựa chọn tình trạng sinh viên mặc định trạng thái normal
 
-        if (lophoc_id == "-1") {
-            lophoc_id = null;
-        }
-        if (hocky_id == "-1") {
-            hocky_id = null;
-        }
-        if (sinhvien_id == "-1") {
-            sinhvien_id = null;
-        }
-        if (namhoc == "") {
-            namhoc = null;
-        }
-        else {
-            namhoc = "'" + namhoc + "'";
-        }
-        var dataToSend = {
-            text: 'uTISRxj9FJY3h+yNENOhsV/mKDi6X6a5wRJ9A0HX6Ayn+7xZAyxnS++6nB1JIsZp7r8B9wfm+navURdWG+3OqKlyruR0dbtbbLlqs1cHg8K1IpEc8BmsAO5l6Gb7p0dbNW26C/nnDd0tBxtuT03RK6kl5+ysQEoquv9LhejDeKw=',
-            paramvalue: nienkhoa_id + ',' + namhoc + ',' + hocky_id + ',' + lophoc_id
-        };
-        $.post({
-            module: "",
-            url: "/AppCommon/Utilities/RunSql",
-            showMask: true,
-            async: false,
-            data: dataToSend,
-            dataType: 'html',
-            success: function (data) {
-                $('#DiemTB').load('@CommonMethod.EncryptUrl("/Management/Detail?layout=table&tbName=vw_tb_SUNSIS_HCMUNRE_QLD_DiemTrungBinh_All&layoutindex=2")');
-            }
-        })
-    }
-    $('#TinhDiem').click(function (e) {
-        e.preventDefault();
-        DiemTrungBinhDaTa();
-    })
-    //Radio button on change event
-    $(document).ready(function () {
-        $('#DiemTB').load('@CommonMethod.EncryptUrl("/Management/Detail?layout=table&tbName=vw_tb_SUNSIS_HCMUNRE_QLD_DiemTrungBinh_All&layoutindex=2")');
-        $("#vw_tb_SUNSIS_HCMUNRE_QLD_TinhDiemTrungBinh-btn-cancel,#vw_tb_SUNSIS_HCMUNRE_QLD_TinhDiemTrungBinh-btn-insert,#vw_tb_SUNSIS_HCMUNRE_QLD_TinhDiemTrungBinh-btn-save,#btExport_vw_tb_SUNSIS_HCMUNRE_QLD_DiemTrungBinh,#btnFullRow_vw_tb_SUNSIS_HCMUNRE_QLD_DiemTrungBinh").remove();
 
-    })
 
-</script>
+
+
+Xét học vụ
+
+
+
+
+option:Niên khóa, học kỳ						
+						
+						
+						
+	ngành						Content
+		chuyên ngành	
+			lớp
+			
+			năm học 
+			học kỳ
+			
