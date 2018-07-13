@@ -1,3 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  For more information on how to configure your ASP.NET application, please visit
+  http://go.microsoft.com/fwlink/?LinkId=169433
+  -->
+<configuration>
+  <configSections>
+    <section name="database-definitions" type="Cx.Framework.EfDataAccess.Config.DatabaseDefinitions, Cx.Framework.EfDataAccess" />
+    <section name="log4net" type="log4net.Config.Log4NetConfigurationSectionHandler, log4net" />
+    <section name="entityFramework" type="System.Data.Entity.Internal.ConfigFile.EntityFrameworkSection, EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" requirePermission="false" />
+    <section name="botDetect" requirePermission="false" type="BotDetect.Configuration.BotDetectConfigurationSection, BotDetect" />
+    <!-- For more information on Entity Framework configuration, visit http://go.microsoft.com/fwlink/?LinkID=237468 -->
+    <sectionGroup name="dotNetOpenAuth" type="DotNetOpenAuth.Configuration.DotNetOpenAuthSection, DotNetOpenAuth.Core">
+      <section name="messaging" type="DotNetOpenAuth.Configuration.MessagingElement, DotNetOpenAuth.Core" requirePermission="false" allowLocation="true" />
+      <section name="reporting" type="DotNetOpenAuth.Configuration.ReportingElement, DotNetOpenAuth.Core" requirePermission="false" allowLocation="true" />
+      <section name="oauth" type="DotNetOpenAuth.Configuration.OAuthElement, DotNetOpenAuth.OAuth" requirePermission="false" allowLocation="true" />
+      <section name="openid" type="DotNetOpenAuth.Configuration.OpenIdElement, DotNetOpenAuth.OpenId" requirePermission="false" allowLocation="true" />
+    </sectionGroup>
+  </configSections>
+  <database-definitions>
+    <definition connString="" schema="dbo" />
+  </database-definitions>
+  <appSettings>
+    <!--the configuration of mvc-->
+    <add key="aspnet:MaxJsonDeserializerMembers" value="150000" />
+    <add key="webpages:Version" value="3.0.0.0" />
+    <add key="webpages:Enabled" value="false" />
+    <add key="ClientValidationEnabled" value="true" />
+    <add key="UnobtrusiveJavaScriptEnabled" value="true" />
+    <!--Run-->
+
+    <!--<add key="ConnectString" value="Pi9GCErXULHzO1I9CzYJ+HnoJPu+VxMzy2D9ep5AswwF6FqZbc3vbLzr5MTDlFG9vTfbA/hYE3GR7fLWpEIHXJKrWIU40zKuBZGcv9ihF84GtcxuuvvObx4tNC3xMy+EXzyNlw0nO+xXa5+cVqchYh+9LqRAFlhi/uEbMdvhUHtPgamLXmgIlCzlKa1od7sDzu68OACzS5/W/G09zS5myQDxE+38bTrtReWsFZCX7emWjHZOoum+RLPYdY8RmChigbztiUEfN3br6SFGwOjzmYAyCNTBAqZ8N1/b8HEJ5WNuSS0RjtXztQ==" />-->
+    <add key="ConnectString" value="Pi9GCErXULHzO1I9CzYJ+HnoJPu+VxMzy2D9ep5Aswzr1KDmhYyYYqp0h+LjPBaR8Wq+u/ksQb5p36zhhIjK1pkWhNsTbawAX600QISBVlfPbZtv3dlBX3ykLLnDl8Hwzm9PLUxJpGlnOeAjKNsllpl3nyPSmv5nJSo+S8a6LysxGeMRRE7OV1HwEszIzztZE1KTOZd3ZIGQJHUoMcP0Wu5lfepe5ANUIAylXjLCnhH8pVKFlYI3Glb1C5hmlOAMeGqOqFFri/4=" />
+    <add key="ShowedColMaxNumber" value="20" />
+    <add key="EmailContact" value="K3vn4QV3A9WnXdjev8QJ9x4i4kjAajz69DMyLwUE0TcX2DVfmFDGivhmoiH2CsMqNIlzGiapq+8=" />
+    <add key="PasswordEmailContact" value="+4NuWiri26aVSOuxQGUEq4qo0pG8/9WYB6azjXRMloM0I2Q7mE90+L8g0rMddm6E" />
+    <add key="EmailGopY" value="K3vn4QV3A9WnXdjev8QJ9x4i4kjAajz69DMyLwUE0TcX2DVfmFDGivhmoiH2CsMqNIlzGiapq+8=" />
+    <!--Login Email-->
+    <add key="google_clientId" value="794865269895-l6m9un0dm1seb80r5udecql1pqos951t.apps.googleusercontent.com" />
+    <add key="google_clientEmail" value="" />
+    <add key="google_clientSerect" value="g0BZHUajiULWebEX2V4hX9HY" />
+    <add key="RedirectUrl" value="" />
+    <add key="google_JavaScriptOrigin" value="http://localhost:9001" />
+    <add key="HostMail" value="smtp.gmail.com" />
+    <add key="HostMailPort" value="587" />
+    <!-- Visibility will not filter to children -->
+    <add key="MvcSiteMapProvider_VisibilityAffectsDescendants" value="false" />
+    <!-- Set default visibility provider -->
+    <add key="MvcSiteMapProvider_DefaultSiteMapNodeVisibiltyProvider" value="MvcSiteMapProvider.FilteredSiteMapNodeVisibilityProvider, MvcSiteMapProvider" />
+    <add key="MvcSiteMapProvider_UseExternalDIContainer" value="false" />
+    <add key="MvcSiteMapProvider_ScanAssembliesForSiteMapNodes" value="true" />
+    <add key="MvcSiteMapProvider_IncludeAssembliesForScan" value="Modules.WebApp" />
+  </appSettings>
+
+  <system.web>
+    <compilation defaultLanguage="c#" targetFramework="4.5" debug="true">
+      <assemblies>
+        <add assembly="System.IO.Compression.FileSystem, Version=4.0.0.0, Culture=neutral, PublicKeyToken=B77A5C561934E089" />
+      </assemblies>
+    </compilation>
+    <httpRuntime targetFramework="4.5" maxRequestLength="2147483647" maxQueryStringLength="2097151" maxUrlLength="2097151" />
+    <authentication mode="Forms">
+      <forms cookieless="UseCookies" loginUrl="/" timeout="2880" />
+    </authentication>
+    <globalization fileEncoding="UTF-8" requestEncoding="UTF-8" responseEncoding="UTF-8" />
+    <pages enableSessionState="true">
+      <namespaces>
+        <add namespace="System.Web.Helpers" />
+        <add namespace="System.Web.Mvc" />
+        <add namespace="System.Web.Mvc.Ajax" />
+        <add namespace="System.Web.Mvc.Html" />
+        <add namespace="System.Web.Optimization" />
+        <add namespace="System.Web.Routing" />
+        <add namespace="System.Web.WebPages" />
+        <add namespace="MvcSiteMapProvider.Web.Html" />
+        <add namespace="MvcSiteMapProvider.Web.Html.Models" />
+      </namespaces>
+      <controls>
+        <add assembly="BotDetect" namespace="BotDetect.Web.UI" tagPrefix="BotDetect" />
+      </controls>
+    </pages>
+    <!-- Turn on Custom Errors -->
+    <customErrors mode="Off">
+    </customErrors>
+    <httpHandlers>
+      <add verb="GET" path="BotDetectCaptcha.ashx" type="BotDetect.Web.CaptchaHandler, BotDetect" />
+    </httpHandlers>
+    <sessionState mode="InProc" cookieless="AutoDetect" timeout="5000" sessionIDManagerType="BotDetect.Web.CustomSessionIdManager, BotDetect" />
+  </system.web>
+  <system.webServer>
+    <security>
+      <requestFiltering>
+        <requestLimits maxAllowedContentLength="1073741824" maxQueryString="2097151" />
+      </requestFiltering>
+    </security>
+    <!--<staticContent>
+      <mimeMap fileExtension=".json" mimeType="application/json" />
+    </staticContent>-->
+    <validation validateIntegratedModeConfiguration="false" />
+    <modules runAllManagedModulesForAllRequests="true">
+      <remove name="UrlRoutingModule-4.0" />
+      <add name="UrlRoutingModule-4.0" type="System.Web.Routing.UrlRoutingModule" />
+    </modules>
+    <handlers>
+      <remove name="SimpleHandlerFactory-Integrated" />
+      <remove name="ExtensionlessUrlHandler-ISAPI-4.0_32bit" />
+      <remove name="ExtensionlessUrlHandler-ISAPI-4.0_64bit" />
+      <add name="ExtensionlessUrlHandler-ISAPI-4.0_32bit" path="*." verb="GET,HEAD,POST,DEBUG,PUT,DELETE,PATCH,OPTIONS" modules="IsapiModule" scriptProcessor="%windir%\Microsoft.NET\Framework\v4.0.30319\aspnet_isapi.dll" preCondition="classicMode,runtimeVersionv4.0,bitness32" responseBufferLimit="0" />
+      <add name="ExtensionlessUrlHandler-ISAPI-4.0_64bit" path="*." verb="GET,HEAD,POST,DEBUG,PUT,DELETE,PATCH,OPTIONS" modules="IsapiModule" scriptProcessor="%windir%\Microsoft.NET\Framework64\v4.0.30319\aspnet_isapi.dll" preCondition="classicMode,runtimeVersionv4.0,bitness64" responseBufferLimit="0" />
+       <add name="SimpleHandlerFactory-Integrated" path="*.ashx" verb="GET,HEAD,POST,DEBUG,DELETE" type="System.Web.UI.SimpleHandlerFactory" resourceType="Unspecified" requireAccess="Script" preCondition="integratedMode" />
+      <remove name="BotDetectCaptchaHandler" />
+      <add name="BotDetectCaptchaHandler" preCondition="integratedMode" verb="GET" path="BotDetectCaptcha.ashx" type="BotDetect.Web.CaptchaHandler, BotDetect" />
+    <remove name="ExtensionlessUrlHandler-Integrated-4.0" /><remove name="OPTIONSVerbHandler" /><remove name="TRACEVerbHandler" /><add name="ExtensionlessUrlHandler-Integrated-4.0" path="*." verb="*" type="System.Web.Handlers.TransferRequestHandler" preCondition="integratedMode,runtimeVersionv4.0" /></handlers>
+        <urlCompression doStaticCompression="false" />
+  </system.webServer>
+  <runtime>
+    <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
+      <dependentAssembly>
+        <assemblyIdentity name="WebGrease" publicKeyToken="31bf3856ad364e35" culture="neutral" />
+        <bindingRedirect oldVersion="0.0.0.0-1.6.5135.21930" newVersion="1.6.5135.21930" />
+      </dependentAssembly>
+      <dependentAssembly>
+        <assemblyIdentity name="Newtonsoft.Json" publicKeyToken="30ad4fe6b2a6aeed" culture="neutral" />
+        <bindingRedirect oldVersion="0.0.0.0-11.0.0.0" newVersion="11.0.0.0" />
+      </dependentAssembly>
+      <dependentAssembly>
+        <assemblyIdentity name="System.Web.Http" publicKeyToken="31bf3856ad364e35" culture="neutral" />
+        <bindingRedirect oldVersion="0.0.0.0-5.2.2.0" newVersion="5.2.2.0" />
+      </dependentAssembly>
+      <dependentAssembly>
+        <assemblyIdentity name="System.Net.Http.Formatting" publicKeyToken="31bf3856ad364e35" culture="neutral" />
+        <bindingRedirect oldVersion="0.0.0.0-5.2.2.0" newVersion="5.2.2.0" />
+      </dependentAssembly>
+      <dependentAssembly>
+        <assemblyIdentity name="System.Web.Helpers" publicKeyToken="31bf3856ad364e35" />
+        <bindingRedirect oldVersion="1.0.0.0-3.0.0.0" newVersion="3.0.0.0" />
+      </dependentAssembly>
+      <dependentAssembly>
+        <assemblyIdentity name="System.Web.WebPages" publicKeyToken="31bf3856ad364e35" />
+        <bindingRedirect oldVersion="1.0.0.0-3.0.0.0" newVersion="3.0.0.0" />
+      </dependentAssembly>
+      <dependentAssembly>
+        <assemblyIdentity name="System.Web.Mvc" publicKeyToken="31bf3856ad364e35" />
+        <bindingRedirect oldVersion="0.0.0.0-5.2.4.0" newVersion="5.2.4.0" />
+      </dependentAssembly>
+      <dependentAssembly>
+        <assemblyIdentity name="DotNetOpenAuth.AspNet" publicKeyToken="2780ccd10d57b246" culture="neutral" />
+        <bindingRedirect oldVersion="0.0.0.0-4.3.0.0" newVersion="4.3.0.0" />
+      </dependentAssembly>
+      <dependentAssembly>
+        <assemblyIdentity name="DotNetOpenAuth.Core" publicKeyToken="2780ccd10d57b246" culture="neutral" />
+        <bindingRedirect oldVersion="0.0.0.0-4.3.0.0" newVersion="4.3.0.0" />
+      </dependentAssembly>
+      <dependentAssembly>
+        <assemblyIdentity name="Antlr3.Runtime" publicKeyToken="eb42632606e9261f" culture="neutral" />
+        <bindingRedirect oldVersion="0.0.0.0-3.5.0.2" newVersion="3.5.0.2" />
+      </dependentAssembly>
+      <dependentAssembly>
+        <assemblyIdentity name="EPPlus" publicKeyToken="ea159fdaa78159a1" culture="neutral" />
+        <bindingRedirect oldVersion="0.0.0.0-4.5.0.3" newVersion="4.1.1.0" />
+      </dependentAssembly>
+    </assemblyBinding>
+    <!-- This prevents the Windows Event Log from frequently logging that HMAC1 is being used (when the other party needs it). -->
+    <legacyHMACWarning enabled="0" />
+    <!-- When targeting ASP.NET MVC 3, this assemblyBinding makes MVC 1 and 2 references relink
+		     to MVC 3 so libraries such as DotNetOpenAuth that compile against MVC 1 will work with it.
+		<assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
+			<dependentAssembly>
+				<assemblyIdentity name="System.Web.Mvc" publicKeyToken="31bf3856ad364e35" />
+				<bindingRedirect oldVersion="1.0.0.0-3.0.0.0" newVersion="3.0.0.0" />
+			</dependentAssembly>
+		</assemblyBinding>
+		 -->
+  </runtime>
+  <entityFramework>
+    <defaultConnectionFactory type="System.Data.Entity.Infrastructure.SqlConnectionFactory, EntityFramework" />
+    <providers>
+      <provider invariantName="System.Data.SqlClient" type="System.Data.Entity.SqlServer.SqlProviderServices, EntityFramework.SqlServer" />
+    </providers>
+  </entityFramework>
+  <botDetect>
+    <captchaImage>
+      <helpLink enabled="true" mode="image" />
+    </captchaImage>
+  </botDetect>
+  <system.net>
+    <defaultProxy enabled="true" />
+    <settings>
+      <!-- This setting causes .NET to check certificate revocation lists (CRL) 
+			     before trusting HTTPS certificates.  But this setting tends to not 
+			     be allowed in shared hosting environments. -->
+      <!--<servicePointManager checkCertificateRevocationList="true"/>-->
+    </settings>
+  </system.net>
+  <dotNetOpenAuth>
+    <messaging>
+      <untrustedWebRequest>
+        <whitelistHosts>
+          <!-- Uncomment to enable communication with localhost (should generally not activate in production!) -->
+          <!--<add name="localhost" />-->
+        </whitelistHosts>
+      </untrustedWebRequest>
+    </messaging>
+    <!-- Allow DotNetOpenAuth to publish usage statistics to library authors to improve the library. -->
+    <reporting enabled="true" />
+    <!-- This is an optional configuration section where aspects of dotnetopenauth can be customized. -->
+    <!-- For a complete set of configuration options see http://www.dotnetopenauth.net/developers/code-snippets/configuration-options/ -->
+    <openid>
+      <relyingParty>
+        <security requireSsl="false">
+          <!-- Uncomment the trustedProviders tag if your relying party should only accept positive assertions from a closed set of OpenID Providers. -->
+          <!--<trustedProviders rejectAssertionsFromUntrustedProviders="true">
+						<add endpoint="https://www.google.com/accounts/o8/ud" />
+					</trustedProviders>-->
+        </security>
+        <behaviors>
+          <!-- The following OPTIONAL behavior allows RPs to use SREG only, but be compatible
+					     with OPs that use Attribute Exchange (in various formats). -->
+          <add type="DotNetOpenAuth.OpenId.RelyingParty.Behaviors.AXFetchAsSregTransform, DotNetOpenAuth.OpenId.RelyingParty" />
+        </behaviors>
+      </relyingParty>
+    </openid>
+  </dotNetOpenAuth>
+  <uri>
+    <!-- The uri section is necessary to turn on .NET 3.5 support for IDN (international domain names),
+		     which is necessary for OpenID urls with unicode characters in the domain/host name.
+		     It is also required to put the Uri class into RFC 3986 escaping mode, which OpenID and OAuth require. -->
+    <idn enabled="All" />
+    <iriParsing enabled="true" />
+  </uri>
+</configuration>
+
+
+
+
+
 declare @nienkhoa_id int
 declare @hocky_id int
 declare @nganh_id int
