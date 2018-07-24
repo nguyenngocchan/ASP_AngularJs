@@ -1,161 +1,676 @@
-  var phrases = [];
+/* roboto-regular - latin */
 
-$('.phrase').each(function(){
-    var phrase = '';
-    $(this).find('a').each(function(){
-        var current = $(this);
-        if(current.children().size() > 0) {return true;}
-        phrase += $(this).text();
-    });
-    phrases.push(phrase);
-});
-alert(phrases);
-@using System.Security.AccessControl
-@using Modules.Common
-@using Modules.Common.Data
-@using Modules.WebApp.Areas.AppCommon.Models.Shared
-@using System.Data
-@using System.Windows.Forms
-@using Modules.WebApp.Areas.AppCommon.Controllers
-@using Modules.WebApp.Areas.AppCommon.Models.Shared.FilterControls
-@inherits Cx.Framework.Web.Razor.CxWebViewPage<dynamic>
-@{
-    ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+a {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
 }
-<div class="row">
-    <div class="col-sm-3" id="option_tinhdiem">
-        <h3>Tính điểm trung bình</h3>
-        <div class="form-check">
-            <label>
-                <input type="radio" name="radio" checked value="Tính điểm trung bình học kỳ"> <span class="label-text">Tính điểm trung bình học kỳ</span>
-            </label>
-        </div>
-        <div class="form-check">
-            <label>
-                <input type="radio" name="radio" value="Tính điểm trung bình năm học"> <span class="label-text">Tính điểm trung bình năm học</span>
-            </label>
-        </div>
-        <div class="form-check">
-            <label>
-                <input type="radio" name="radio" value="Tính điểm trung bình toàn khóa"> <span class="label-text">Tính điểm trung bình toàn khóa</span>
-            </label>
-        </div>
-    </div>
-</div>
-@Html.Partial("~/Areas/AppCommon/Views/Shared/EditFormPartial.cshtml", new EditDataModel
-{
-    TableName = "vw_tb_SUNSIS_HCMUNRE_QLD_TinhDiemTrungBinh",
-    Id = "14",
-    MoreExp = "",
-    Layout = "editForm"
-})
 
-<div class="row">
-    <div class="col-lg-12">
-        <button id="TinhDiem" type="button" style="margin:5px 0;" class="btnSubmit validate btn blue btn-lg pull-right uppercase">Tính điểm</button>
-    </div>
-</div>
+*,
+html,
+body {
+    font-size: 14px;
+    font-family: 'Roboto';
+}
 
-@Html.Partial("~/Areas/AppCommon/Views/Shared/DataTablePartial.cshtml", new DataTableModel
-{
-    TableName = "vw_tb_SUNSIS_HCMUNRE_QLD_DiemTrungBinh",
-    MoreExp = "",
-    Layout = "table",
-    UseAjax = false,
-    ShowHeader = false
-})
-</div>
-<style>
-    /*#div_HocKy_Id, #vw_tb_SUNSIS_HCMUNRE_QLD_TinhDiemTrungBinh_NienKhoa-edit-form {
-        display: none;
-    }*/
-</style>
-<script type="text/javascript">
-    var idSelected = [];
-    function DiemTrungBinhDaTa() {
-        var nienkhoa_id = $('select[name*="NienKhoa_Id"]').val();
-        var lophoc_id = $('select[name*="LopHoc_Id"]').val();
-        var hocky_id = $('select[name*="HocKy_Id"]').val();
-        if (lophoc_id == "-1") {
-            lophoc_id = null;
+
+
+/*span.station-weather {
+    background: yellow;
+    padding: 5px;
+}
+
+span.station-name {
+    background: black;
+    color: #fff;
+    padding: 5px;
+}*/
+
+.nav_breadcrumb {
+    float: left;
+    width: 100%;
+    margin-top: 65px;
+}
+
+.main {
+    float: left;
+    margin-top: 60px;
+    width: 100%;
+    position: relative;
+}
+
+#map {
+    width: 100%;
+    /* height: 500px; */
+}
+
+.map_title {
+    width: auto;
+    font-style: italic;
+    font-size: 12px;
+    float: left;
+    padding: 10px;
+    text-align: center;
+}
+
+.info_about_map {
+    float: left;
+    width: 100%;
+    background-color: #039BE5;
+}
+
+.content {
+    padding: 10px;
+}
+
+.block {
+    width: 100%;
+    padding: 10px;
+}
+
+.info {
+    float: left;
+    width: 100%;
+    height: 200px;
+    height: auto;
+    border: solid 1px #ccc;
+    border-radius: 20px;
+    background: #f5f5f5;
+    box-shadow: 0 10px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19) !important;
+}
+
+.left {
+    height: auto;
+    width: 100%;
+    float: left;
+    padding: 10px;
+}
+
+.right {
+    float: left;
+    padding: 10px;
+    font-size: 18px;
+}
+
+.province {
+    text-align: center;
+}
+
+    .province h4 {
+        font-size: 20px;
+        text-transform: uppercase;
+    }
+
+.province_image {
+    width: 100%;
+    overflow: auto;
+}
+
+    .province_image img {
+        float: left;
+        width: 100%;
+        border-radius: 10px;
+        margin-top: 20px;
+    }
+
+.total {
+    float: left;
+    text-align: center;
+    margin-bottom: 10px;
+    padding: 0;
+    width: 100%;
+}
+
+    .total img {
+        float: left;
+        margin: 0 auto;
+        height: 50px;
+        width: 50px;
+    }
+
+.weather {
+    float: left;
+    width: 100%;
+}
+
+.weather_icon_humid {
+    text-align: center;
+    float: left;
+    padding: 0;
+}
+
+    .weather_icon_humid > i {
+        font-size: 20px;
+        color: #0f81b9;
+    }
+
+.weather_icon_hot {
+    text-align: center;
+    float: left;
+    padding: 0;
+}
+
+    .weather_icon_hot > i {
+        font-size: 20px;
+        color: #0f81b9;
+    }
+
+.weather_icon_cool {
+    text-align: center;
+    float: left;
+    padding: 0;
+}
+
+    .weather_icon_cool > i {
+        font-size: 20px;
+        color: red;
+    }
+
+.weather_info {
+    width: 100%;
+    float: left;
+    padding: 0;
+}
+
+    .weather_info p {
+        margin: auto;
+        font-weight: bold;
+    }
+
+.footer {
+    color: #f5f5f5;
+    border-top: solid 5px #99d224;
+    float: left;
+    background: linear-gradient(0deg, #45a9da, #0f81b9);
+    padding: 10px;
+    height: 100%;
+}
+
+.footer_mid p {
+    float: left;
+    font-size: 14px;
+    /* margin-bottom: 0px; */
+}
+
+.footer_right {
+    float: left;
+    text-align: center;
+}
+
+.social_network {
+    width: 100%;
+    float: left;
+    padding: 10px;
+}
+
+    .social_network span {
+        float: left;
+        padding: 0;
+        margin: 3px;
+        height: 40px;
+        width: 40px;
+    }
+
+        .social_network span img {
+            border-radius: 50%;
         }
-        if (hocky_id == "-1") {
-            hocky_id = null;
+
+        .social_network span:hover {
+            opacity: 0.5;
         }
-        var dataToSend= {
-            text: 'uTISRxj9FJY3h+yNENOhsV/mKDi6X6a5wRJ9A0HX6Ayn+7xZAyxnS++6nB1JIsZp7r8B9wfm+navURdWG+3OqKlyruR0dbtbbLlqs1cHg8KizKTOebsiEm1+SjdW2OWd8N3yLISiwRJ99vVbl2DUdA==',
-            paramvalue: nienkhoa_id+','+lophoc_id+','+hocky_id
-        };
-        $.post({
-            module: "",
-            url: "/AppCommon/Utilities/RunSql",
-            showMask: true,
-            async: false,
-            data: dataToSend,
-            success: function () {
-                $("body").load('DiemTrungBinh');
-            }
-            })
-        }
-    $('#TinhDiem').click(function (e) {
-        e.preventDefault();
-        DiemTrungBinhDaTa();
-    })
-    //Radio button on change event
-    $(document).ready(function () {
-        $('input[name*="schoolyear"]').attr('disabled', true);
 
-        $('input:radio[name=radio]').change(function () {
-            if (this.value == 'Tính điểm trung bình học kỳ') {
-                $('select[name*="HocKy_Id"]').attr('disabled', false);
-                $('input[name*="schoolyear"]').attr('disabled', true);
-            }
-            else if (this.value == 'Tính điểm trung bình năm học') {
-                $('select[name*="HocKy_Id"]').attr('disabled', true);
-                $('input[name*="schoolyear"]').attr('disabled', false);
-            }
-            else if (this.value == 'Tính điểm trung bình toàn khóa') {
-                $('select[name*="HocKy_Id"]').attr('disabled', true);
-                $('input[name*="schoolyear"]').attr('disabled', true);
-            }
-        });
-        //Show, Hide button
-        $("#vw_tb_SUNSIS_HCMUNRE_QLD_TinhDiemTrungBinh-btn-cancel,#vw_tb_SUNSIS_HCMUNRE_QLD_TinhDiemTrungBinh-btn-update,#btExport_vw_tb_SUNSIS_HCMUNRE_QLD_DiemTrungBinh,#btnFullRow_vw_tb_SUNSIS_HCMUNRE_QLD_DiemTrungBinh").remove();
+#myBtn {
+    display: none;
+    position: fixed;
+    bottom: 10px;
+    right: 25px;
+    z-index: 1000;
+    font-size: 18px;
+    border: none;
+    outline: none;
+    background-color: #0f81b9;
+    color: white;
+    cursor: pointer;
+    padding: 12px;
+    border-radius: 4px;
+}
 
-    })
+    #myBtn:hover {
+        background-color: #555;
+    }
 
-</script>
+.select_station, .weather_info2 {
+    width: 100%;
+    margin: 10px auto;
+    padding-top: 10px;
+    border-radius: 5px;
+    /* float: left; */
+    border: solid 1px #ccc;
+    box-shadow: 0 0px 1px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19) !important;
+}
+
+.select_station_left {
+    text-align: center;
+    padding: 0;
+    width: 100%;
+    float: left;
+}
+
+.select_station_right {
+    padding: 0 10px;
+    width: 100%;
+    float: left;
+}
+
+.weather2_info_block {
+    float: left;
+    width: 100%;
+}
+
+.weather2_info_block_img {
+    float: left;
+    width: 100%;
+}
+
+.weather2_info_block_num {
+    float: left;
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+    .weather2_info_block_num p {
+        height: 20px;
+        line-height: 20px;
+        text-align: left;
+        margin: auto;
+        font-size: 18px;
+        padding-top: 20px;
+    }
 
 
 
-        public ActionResult RunSql(string text, string paramvalue)
-        {
-            string sql = DataAccessContants.DataProvider.Decrypt_Try_Encode(text);
-            if (sql == "")
-                return Content("Succ");
-            string[] lstParam = paramvalue.Split(',');
-            for (int i = 0; i < lstParam.Length; i++)
-            {
-             
-                sql = sql.Replace("{" + i + "}", lstParam[i]);
-            }
+.nav-tabs {
+    width: 100%;
+    float: left;
+    height: auto;
+    padding: 0;
+    margin: 0 auto;
+    border-bottom: 1px #0f81b9 solid;
+}
 
-            string param = Request.QueryString.ToString();
-            NameValueCollection qscoll = HttpUtility.ParseQueryString(param);
-            foreach (string key in qscoll)
-            {
-                var value = qscoll[key];
-                if (value.IndexOf(";") >= 0)
-                {
-                    value = " IN (" + value.Replace(";", ",") + ")";
-                    sql = sql.Replace("=[" + key + "]", value);
-                    sql = sql.Replace("= [" + key + "]", value);
-                }
-                else
-                    sql = sql.Replace("[" + key + "]", value);
-            }
-            sql = DataAccessContants.DataProvider.ReplaceDefault(sql);
-            int r = DataAccessContants.DataProvider.ExecuteCommand(sql);
-            return Content("Succ");
-        }
+.nav-tabs {
+    margin: 0;
+}
+
+.nav-item {
+    margin: 0 10px;
+}
+
+.nav-tabs .nav-link {
+    border-radius: 10px 10px 0 0;
+}
+
+    .nav-tabs .nav-link:hover {
+        background-color: #039BE5;
+        border-color: #039BE5;
+        color: #f5f5f5;
+    }
+
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+        background-color: #0f81b9 !important;
+        color: #f5f5f5;
+        border-color: #0f81b9;
+    }
+
+.tab-pane {
+    padding: 0;
+}
+
+.basic_info {
+    margin: 20px auto;
+    padding: 0;
+}
+
+.basic_info_map {
+    width: 100%;
+    padding: 0;
+}
+/* data */
+.data {
+    float: left;
+    width: 100%;
+}
+
+.data_block_layout {
+    width: 100%;
+    background: #ccc;
+}
+
+#box {
+    /* float: left; */
+    /* overflow: hidden; */
+    position: absolute;
+    right: 0;
+    height: 100%;
+    z-index: 999;
+    overflow: hidden;
+}
+
+.search {
+    background: #f5f5f5;
+    height: 100%;
+    width: 300px;
+    border-left: solid 2px #0f81b9;
+    /* padding: 10px; */
+    padding: 0;
+    position: relative;
+}
+
+#zoom_search, #select_info, #select_type {
+    height: 25px !important;
+}
+
+.table-responsive {
+    padding: 5px;
+    width: 100%;
+    height: 200px;
+    position: relative;
+    table-layout: fixed;
+}
+
+#search {
+    height: 25px;
+}
+
+.form-group {
+    padding: 5px;
+    margin: 0px;
+    font-size: 10px;
+}
+
+    .form-group input {
+        height: 25px;
+        padding: 0;
+        margin: 0;
+        font-size: 12px;
+    }
+
+    .form-group label {
+        height: 12px;
+    }
+
+.info_ico {
+    padding: 0;
+    float: left;
+    width: 100%;
+    margin: 0;
+    font-size: 10px;
+}
+
+.clear_box {
+    clear: both;
+}
+
+.water_icon, .water_info {
+    font-size: 12px;
+    width: 100%;
+    float: left;
+    padding: 0;
+    height: auto;
+}
+
+    .water_icon img {
+        padding: 5px;
+        height: 30px;
+        /* float: left; */
+    }
+/* select.form-control{
+    float: left;
+    height: 25px!important;
+} */
+.table {
+    overflow-x: auto;
+    overflow-y: scroll;
+    height: 200px;
+}
+
+thead {
+    font-weight: bold;
+    text-align: center;
+    text-transform: capitalize;
+}
+
+#slide-toggle {
+    position: absolute;
+    top: 50%;
+    right: 300px;
+    z-index: 1000;
+    width: auto;
+    /* padding: 5px 12px; */
+    position: fixed;
+    z-index: 999;
+    background: rgba(0,0,0,0.6);
+    font-size: 20px;
+    color: #fff;
+    border: none;
+    border-radius: 0;
+}
+
+#re-toggle {
+    z-index: 100;
+    display: none;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    position: fixed;
+    z-index: 999;
+    background: rgba(0,0,0,0.6);
+    border: none;
+    font-size: 20px;
+}
+
+.chart {
+    display: none;
+    width: 100%;
+    background: #fff;
+    height: auto;
+}
+
+#bottom-sidebar {
+    width: 100%;
+    height: auto;
+    /* float: left; */
+    /* left: 0; */
+    position: absolute;
+    bottom: 0;
+    margin: 0;
+    padding: 0;
+    z-index: 9999;
+}
+
+#close_chart {
+    /* float: right; */
+    position: absolute;
+    top: 0;
+    right: 15px;
+    padding: 5px;
+}
+
+    #close_chart i {
+        font-size: 20px;
+    }
+
+.zoom-ctrl.zoom-plus {
+    font-size: 24px;
+    line-height: 1.05;
+}
+
+.zoom-ctrl {
+    width: 25px;
+    height: 25px;
+    border-radius: 25px;
+    background: rgba(0,0,0,0.6);
+    margin-bottom: 4px;
+    text-align: center;
+    align-self: flex-end;
+}
+/* #left-sidebar{
+    position:absolute;
+    left: 1%;
+    top: 5%;
+} */
+#rh-bottom {
+    width: 300px;
+    margin: 0 30px 8px auto;
+    position: relative;
+    white-space: nowrap;
+    pointer-events: auto;
+}
+
+.shy {
+    transition: .7s opacity 0s;
+    -webkit-transition: .7s opacity 0s;
+}
+
+#rh-bottom #legend {
+    -webkit-transition: .3s opacity;
+    transition: .3s opacity;
+    cursor: pointer;
+    margin-bottom: 5px;
+    border-radius: 20px;
+}
+
+.metric-legend {
+    width: 100%;
+    background-color: #7c7c7c;
+    white-space: nowrap;
+    font-size: 12px;
+    box-shadow: 1px 1px 1px rgba(0,0,0,0.63);
+}
+
+[data-tooltip] {
+    position: relative;
+    text-transform: none;
+    cursor: pointer;
+}
+
+.noselect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+#rh-bottom #legend span:first-child {
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+}
+
+.metric-legend span {
+    display: inline-block;
+    line-height: 1.5;
+    text-align: center;
+    vertical-align: middle;
+}
+
+#box-infor-web {
+    height: 100%;
+    z-index: 999;
+    overflow: hidden;
+    width: 300px;
+    display: none;
+}
+
+div#show-infor-web {
+    position: absolute;
+    bottom: 10%
+}
+
+/*.station-main-info {
+    display: block;
+    min-width: 300px;
+}
+
+span.fa.fa-circle.station-icon {
+    display: inline;
+    font-size: 10px;
+}*/
+
+.show-map-window table {
+    height: 100%;
+}
+
+.show-map-window .title {
+    font-weight: 600;
+}
+
+ul li.item-status-weather {
+    list-style-type: none;
+}
+
+.item-status-weather {
+    display: block;
+}
+
+.color-status {
+    width: 47px;
+    height: 10px;
+    display: inline-block;
+}
+
+.name-status {
+    display: inline;
+    font-weight: bold;
+}
+
+#statusWeather {
+    position: fixed;
+    top: 20%;
+    left: 1%;
+    z-index: 999;
+}
+
+.name-gas, .value-gas {
+    display: inline;
+    padding: 5px;
+}
+
+#infor-gas li {
+    list-style-type: none;
+}
+
+#gas-station {
+    width: 300px;
+}
+
+#cycle-gas {
+    float: left;
+    padding-right: 3px;
+}
+
+span.value-cycle-gas {
+    padding: 5px;
+    border-radius: 20px;
+    color: #fff;
+    background: black;
+}
+
+#display-gas-weather {
+    position: fixed;
+    top: 50%;
+    left: 1%;
+    z-index: 999;
+}
+.submn-gas{
+    display:inline;
+}
+ul#bind--gas-weather li{
+    list-style-type:none
+}
+ul#bind--gas-weather li a{
+    text-decoration: none;
+}
