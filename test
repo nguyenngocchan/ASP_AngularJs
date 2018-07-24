@@ -1,256 +1,663 @@
-using Modules.Common.Data;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+<!doctype html>
+<html lang="en">
 
-namespace Modules.WebApp.Controllers
-{
-    public class SUNISDiemTrungBinhController : Controller
-    {
-        // GET: SUNISDiemTrungBinh
-        public ActionResult Index()
-        {
-            return View();
-        }
-        public void TinhDiemTrungBinh(int? nienkhoaId, int? lophocId, int? hockyId, int? sinhvienId)
-        {
-            DataTable tbDiemTrungBinh = new DataTable("tb_SUNSIS_HCMUNRE_QLD_DiemTrungBinh");
-            DataTable tbdiem = new DataTable();
-            DataAccessContants.DataProvider.FillTable(ref tbdiem, "select * from tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc lmh inner join tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc_DSSinhVien diem on lmh.ID=diem.Lop_MonHoc" +
-            " inner join tb_SUNSIS_HCMUNRE_QLCTDT_MH mh on lmh.MonHoc=mh.ID" +
-            " inner join tb_SUNSIS_HCMUNRE_QLLH_LH lh on lh.ID=lmh.Lophoc_Id" +
-            " inner join tb_SUNSIS_HCMUNRE_QLCTDT_NK ctdtnk on lh.ayversion=ctdtnk.ID" +
-            " inner join tb_SUNSIS_HCMUNRE_Danhmuc_NienKhoa nk on nk.ID=ctdtnk.ayyear" +
-            " inner join tb_SUNSIS_HCMUNRE_DM_HK hk on hk.ID=lmh.HocKy" +
-            " join tb_SUNSIS_HCMUNRE_Quyche_Version qc on qc.id=nk.Quyche_Id" +
-            " join tb_SUNSIS_HCMUNRE_Quyche_Chungchi cc on qc.Id=cc.Quyche_Id" +
-            " where lh.Id =" + lophocId + " and nk.ID =" + nienkhoaId + " and diem.SinhVien_ID=" + sinhvienId + " and lmh.HocKy=" + hockyId + " and diem.Lanhoc=1"+
-            " and lmh.MonHoc in (select lmh.MonHoc from tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc lmh where  lmh.MonHoc not in (select * from fnSplitString((SELECT Danhsach_Chungchi from tb_SUNSIS_HCMUNRE_Quyche_Chungchi cc where Quyche_Id = qc.Id), ';')))");
-            foreach (DataRow datadiem in tbdiem.Rows)
-            {
-                double dh10=(Convert.ToDouble(datadiem["Diem_TongKet"]))*(Convert.ToDouble(datadiem[""]));
-                
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
 
+<head>
+    <title>Quan trắc môi trường</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,
+            shrink-to-fit=no">
+    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="css/mobile.css">
+    <link rel="stylesheet" href="css/ace-responsive-menu.css" type="text/css" />
+    <!-- <link rel="stylesheet" href="./font-awesome-4.7.0/css/font-awesome.min.css"> -->
+    <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.css" type='text/css' media='all'>
+    <link rel="stylesheet" type="text/css" href="css/leaflet-velocity.css">
+    <link rel="stylesheet" type="text/css" href="css/custom.css">
+    <!--progress-line-->
+    <link href="progress-line/index.css" rel="stylesheet" type="text/css">
+    <script src="progress-line/index.js"></script>
 
+    <link rel="stylesheet" type="text/css" href="js/owm/leaflet/leaflet-openweathermap.css" />
+    <link rel="stylesheet" type="text/css" href="js/owm/leaflet/leaflet-languageselector.css" />
+</head>
 
-            }
-            //DataTable tb_SUNSIS_HCMUNRE_QLD_DiemTrungBinh = new DataTable("tb_SUNSIS_HCMUNRE_QLD_DiemTrungBinh");
-            //DataAccessContants.DataProvider.FillTable(ref tb_SUNSIS_HCMUNRE_QLD_DiemTrungBinh, "Select");
+<body>
 
-            //DataTable tbTemp = new DataTable();
-            //DataAccessContants.DataProvider.FillTable(ref tbTemp, "Select");
-
-            ////Dung for de tinh, tinh xong gan vao 1 data
-
-            ////Update
-            //tb_SUNSIS_HCMUNRE_QLD_DiemTrungBinh.Rows[0]["DiemTB"] = 4.5;
-
-            ////Insert
-            //DataRow drnew = tb_SUNSIS_HCMUNRE_QLD_DiemTrungBinh.NewRow();
-            //tb_SUNSIS_HCMUNRE_QLD_DiemTrungBinh.Rows.Add(drnew);
-            //drnew["DiemTB"] = 4.5;
-            //drnew["DiemChu"] = "Năm";
-            //drnew["NgayTinh"] = DateTime.Now;
-
-            ////Luu du lieu
-
-            //DataAccessContants.DataProvider.SaveDataTableBulkCopy(tb_SUNSIS_HCMUNRE_QLD_DiemTrungBinh);
-
-        }
-    }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="row">
-    <div class="col-sm-3" id="option_tinhdiem">
-        <h3>Tính điểm trung bình</h3>
-        <div class="form-check">
-            <label>
-                <input type="radio" name="radio" checked value="Tính điểm trung bình học kỳ"> <span class="label-text">Tính điểm trung bình học kỳ</span>
-            </label>
+    <!-- Ace Responsive Menu -->
+    <nav id="menu">
+        <!-- Menu Toggle btn-->
+        <div class="menu-toggle">
+            <!--<h3>
+                <img src="images/n-cem-logo.png" width="200" alt="" />
+            </h3>-->
+            <button type="button" id="menu-btn" class="">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
         </div>
-        <div class="form-check">
-            <label>
-                <input type="radio" name="radio" value="Tính điểm trung bình năm học"> <span class="label-text">Tính điểm trung bình năm học</span>
-            </label>
+        <div class="li_logo">
+            <img src="images/n-cem-logo.png" alt="" height="60" style="padding:5px" />
         </div>
-        <div class="form-check">
-            <label>
-                <input type="radio" name="radio" value="Tính điểm trung bình toàn khóa"> <span class="label-text">Tính điểm trung bình toàn khóa</span>
-            </label>
+        <!-- Responsive Menu Structure-->
+        <!--Note: declare the Menu style in the data-menu-style="horizontal" (options: horizontal, vertical, accordion) -->
+        <ul id="respMenu" class="ace-responsive-menu" data-menu-style="horizontal">
+            <li>
+                <a href="#">
+                    <i class="fa fa-home"></i>
+                    <span class="title">Home</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <span class="title">Topic Searches</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <span class="title">System Data Searches</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <span class="title">Data Downloads</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <span class="title">Widgets</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <span class="title">Mobile</span>
+                </a>
+            </li>
+            <li class="last ">
+                <form class="form-inline" action="#" method="POST">
+                    <input name="search" class="form-control mr-sm-2" type="text" placeholder="Tìm kiếm">
+                    <button class="btn btn-secondary" type="submit">
+                        <i class="fa fa-search" aria-hidden="true"></i>
+                    </button>
+                </form>
+            </li>
+        </ul>
+    </nav>
+    <!-- main -->
+    <!-- googlemap -->
+
+    <div class="container-fluid main non-padding-right">
+        <div class="row" id="show-main">
+            <div class="col" id="map">
+            </div>
+            <button type="button" class="btn btn-light" id="slide-toggle">
+                <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+            </button>
+            <button type="button" class="btn btn-primary" id="re-toggle">
+                <i class="fa fa-angle-double-left" aria-hidden="true"></i>
+            </button>
+            <div id="box">
+                <div class="col search">
+                    <div class="col-12 form-group" style="background:#0f81b9; padding-top: 20px">
+                        <label for="" style="color: #fff">Tìm trạm:</label>
+                        <input type="text" class="col-12 form-control" name="search" id="search" aria-describedby="helpId" placeholder="">
+                    </div>
+                    <div class="col-7 form-group" style="float: left;">
+                        <label for="">Zoom đến địa điểm:</label>
+                        <select class="form-control" name="zoom_search" id="zoom_search">
+                            <option>Đông Nam Bộ</option>
+                            <option>Duyên hải miền Trung</option>
+                            <option>Biển Đông</option>
+                        </select>
+                    </div>
+                    <div class="col-5 form-group" style="float: left;">
+                        <label for="">Loại thông tin:</label>
+                        <select class="form-control" name="select_info" id="select_info">
+                            <option>Mức nước</option>
+                            <option>Nhiệt độ</option>
+                            <option>Sức gió</option>
+                            <option>Độ ẩm</option>
+                        </select>
+                    </div>
+                    <div class="col-12 form-group" style="float: left;">
+                        <label for="">Loại yêu cầu:</label>
+                        <select class="form-control" name="select_type" id="select_type">
+                            <option></option>
+                            <option></option>
+                            <option></option>
+                        </select>
+                    </div>
+                    <div class="col-12" style="width: 100%; float: left;padding: 0">
+                        <div class="col-6 info_ico">
+                            <span class="col-4 water_icon">
+                                <img src="images/water.png" />
+                            </span>
+                            <span class="col-8 water_info">Mức Nước</span>
+                        </div>
+                        <div class="col-6 info_ico">
+                            <span class="col-4 water_icon">
+                                <img src="images/met.png" />
+                            </span>
+                            <span class="col-8 water_info">Nhiệt độ</span>
+                        </div>
+                        <div class="clear_box"></div>
+                        <div class="col-6 info_ico">
+                            <span class="col-4 water_icon">
+                                <img src="images/watermet.png" />
+                            </span>
+                            <span class="col-8 water_info">Sức gió</span>
+                        </div>
+                        <div class="col-6 info_ico">
+                            <span class="col-4 water_icon">
+                                <img src="images/current.png" />
+                            </span>
+                            <span class="col-8 water_info">Độ ẩm</span>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover" id="data_grid">
+                            <thead class="table-primary">
+                                <tr>
+                                    <th>nước</th>
+                                    <th>gió</th>
+                                    <th>nhiệt độ</th>
+                                    <th>độ ẩm</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td scope="row">ddddddddddddddddddddđ</td>
+                                    <td>jghfdjhgjfdkhgkjdhfjkh</td>
+                                    <td>dsfgfdyfghfhgh</td>
+                                    <td>dsfgfdyfghfhgh</td>
+                                </tr>
+                                <tr>
+                                    <td>dsfgfdyfghfhgh</td>
+                                    <td scope="row">ảdytfyhutyu</td>
+                                    <td>ffffffffffffffffffffff</td>
+                                    <td>ssssssssssssssssssssssss</td>
+                                </tr>
+                                <tr>
+                                    <td>dsfgfdyfghfhgh</td>
+                                    <td scope="row">ảdytfyhutyu</td>
+                                    <td>ffffffffffffffffffffff</td>
+                                    <td>ssssssssssssssssssssssss</td>
+                                </tr>
+                                <tr>
+                                    <td>dsfgfdyfghfhgh</td>
+                                    <td scope="row">ảdytfyhutyu</td>
+                                    <td>ffffffffffffffffffffff</td>
+                                    <td>ssssssssssssssssssssssss</td>
+                                </tr>
+                                <tr>
+                                    <td>dsfgfdyfghfhgh</td>
+                                    <td scope="row">ảdytfyhutyu</td>
+                                    <td>ffffffffffffffffffffff</td>
+                                    <td>ssssssssssssssssssssssss</td>
+                                </tr>
+                                <tr>
+                                    <td>dsfgfdyfghfhgh</td>
+                                    <td scope="row">ảdytfyhutyu</td>
+                                    <td>ffffffffffffffffffffff</td>
+                                    <td>ssssssssssssssssssssssss</td>
+                                </tr>
+                                <tr>
+                                    <td>dsfgfdyfghfhgh</td>
+                                    <td scope="row">ảdytfyhutyu</td>
+                                    <td>ffffffffffffffffffffff</td>
+                                    <td>ssssssssssssssssssssssss</td>
+                                </tr>
+                                <tr>
+                                    <td>dsfgfdyfghfhgh</td>
+                                    <td scope="row">ảdytfyhutyu</td>
+                                    <td>ffffffffffffffffffffff</td>
+                                    <td>ssssssssssssssssssssssss</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-12 text-center" id="show-infor-web">
+                        <a href="#">Thông tin về website</a>
+                    </div>
+                </div>
+                <div id="box-infor-web">
+                    <div class="footer">
+                        <div class="col-12">
+                            <button type="button" class="btn btn-danger pull-right" id="close-infor-web">
+                                <i class="fa fa-times-circle" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                        <div footer_left">
+                            <img src="images/n-cem-logo.png" alt="" height="40">
+                        </div>
+                        <div class="footer_mid">
+                            <p>
+                                Cơ quan chủ quản:
+                                <span>TRUNG TÂM QUAN TRẮC MÔI TRƯỜNG MIỀN BẮC - TỔNG CỤC MÔI TRƯỜNG</span>
+                            </p>
+                            <p>
+                                Giấy phép số:
+                                <span>Số 52/GP-TTĐT do cục phát thanh, Truyền hình và Thông tin điện thử cấp ngày 03/06/2016</span>
+                            </p>
+                            <p>
+                                Chịu trách nhiệm chính:
+                                <span>Ông Nguyễn Văn Thuỳ</span>
+                            </p>
+                            <p>
+                                Địa chỉ:
+                                <span>Số 556 Nguyễn Văn Cừ, Long Biên, Hà Nội, Việt Nam</span>
+                            </p>
+                            <p>
+                                Điện thoại:
+                                <span>+84 04 3577 1816</span> - Fax:
+                                <span>+84 04 3577 1855</span> -Email:
+                                <span> webmaster@cem.gov.vn</span>
+                            </p>
+                        </div>
+                        <div class="footer_right">
+                            <h4>Liên kết web</h4>
+                            <div class="form-group">
+                                <select class="form-control" name="" id="" onchange="location = this.value; ">
+                                    <option value="#">Mạng liên kết</option>
+                                    <option value="http://www.monre.gov.vn/">Bộ tài nguyên &amp; môi trường</option>
+                                    <option value="http://dwrm.gov.vn/">Cục quản lý nước</option>
+                                </select>
+                                <div class="col-12 social_network">
+                                    <span class="col-4">
+                                        <a href="#">
+                                            <img src="images/Social-Icons-PNG-Photos-420x228_02.gif" alt="" width="100%">
+                                        </a>
+                                    </span>
+                                    <span class="col-4">
+                                        <a href="#">
+                                            <img src="images/Social-Icons-PNG-Photos-420x228_05.gif" alt="" width="100%">
+                                        </a>
+                                    </span>
+                                    <span class="col-4">
+                                        <a href="#">
+                                            <img src="images/Social-Icons-PNG-Photos-420x228_09.gif" alt="" width="100%">
+                                        </a>
+                                    </span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- <div id="left-sidebar">
+                <div data-do="zoomIn" class="clickable noselect zoom-ctrl zoom-plus" title="Zoom in">+</div>
+                <div data-do="zoomOut" class="clickable noselect zoom-ctrl zoom-minus" title="Zoom out">-</div>
+
+            </div> -->
+
+            <div id="bottom-sidebar">
+                <div id="bottom" class="shy left-border right-border bottom-border">
+                    <a id="mb-info" class="mobilehide" href="https://www.meteoblue.com/">
+                        NEMS4 model by
+                        <img>
+                    </a>
+                    <div id="progress-bar" class="progress-bar">
+                        <div class="progress-line">
+                            <div class="played"></div>
+                            <div class="avbl"></div>
+                            <i></i>
+                        </div>
+                        <div class="timecode ghost-timecode">
+                            <div class="box"></div>
+                        </div>
+                        <div data-title="D_LT2" class="timecode main-timecode">
+                            <div class="box"></div>
+                            <img class="loader loader-path" width="19" height="8">
+                        </div>
+                        <div id="playpause" class="play-pause iconfont clickable"></div>
+                        <div id="calendar"></div>
+                    </div>
+                    <div id="accumulations">
+                        <span id="acc-title-rain" data-t="RAINACCU" class="capitalize"></span>
+                        <span id="acc-title-snow" data-t="SNOWACCU" class="capitalize"></span>
+                        <img class="loader loader-acTime" width="19" height="8">
+                        <br>
+                        <div class="white-switch bubble-switch transparent-switch noselect notap"></div>
+                    </div>
+                    <div id="mobile-calendar">
+                        <div id="timecode-mobile" data-title="D_LT2" class="timecode">
+                            <div id="mobile_box" class="box"></div>
+                            <img class="loader loader-path" width="19" height="8">
+                        </div>
+                        <div id="days"></div>
+                        <div id="playpause-mobile" class="play-pause iconfont bottom-border"></div>
+                    </div>
+                    <div id="legend-mobile" class="metric-legend bottom-border"></div>
+                </div>
+                <!--<section id="rh-bottom" class="shy">
+
+                    <div id="legend" data-ref="legend" class="metric-legend noselect legend-for-wind" data-toggle="tooltip" data-placement="left"
+                         title="Nhấp để thay đổi đơn vị">
+                        <span style="background: rgb(98,113,183); width:12.5%">bft</span>
+                        <span style="background: linear-gradient(to right, rgb(98,113,183), rgb(98,113,183), rgb(60,109,163)); width: 12.5%">0</span>
+                        <span style="background: linear-gradient(to right, rgb(60,109,163), rgb(74,148,169), rgb(74,145,148)); width: 12.5%">2</span>
+                        <span style="background: linear-gradient(to right, rgb(74,145,148), rgb(77,141,123), rgb(76,164,76)); width: 12.5%">3</span>
+                        <span style="background: linear-gradient(to right, rgb(76,164,76), rgb(103,163,54), rgb(161,135,63)); width: 12.5%">5</span>
+                        <span style="background: linear-gradient(to right, rgb(161,135,63), rgb(161,108,92), rgb(141,63,92)); width: 12.5%">7</span>
+                        <span style="background: linear-gradient(to right, rgb(141,63,92), rgb(150,74,144), rgb(95,99,159)); width: 12.5%">8</span>
+                        <span style="background: linear-gradient(to right, rgb(95,99,159), rgb(92,143,153), rgb(92,143,153)); width: 12.5%">11</span>
+                    </div>
+                </section>-->
+                <div class="col chart" id="chart">
+                    <button type="button" class="btn btn-danger" id="close_chart">
+                        <i class="fa fa-times-circle" aria-hidden="true"></i>
+                    </button>
+                    <!-- tabs -->
+                    <div class="container-fluid">
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#info">Thông tin về bản đồ</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link " data-toggle="tab" href="#water">Mức nước</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#wind">Gió</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#temp">Nhiệt độ</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#hum">Độ ẩm</a>
+                            </li>
+
+                        </ul>
+                        <!-- Tab panes -->
+                        <div class="container-fluid tab-content">
+                            <div id="info" class="container-fluid tab-pane active">
+                                <div class="row content">
+                                    <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 block">
+                                        <div class="col-12 info">
+                                            <div class="col-6 left">
+                                                <div class="province">
+                                                    <h4>Nha Trang</h4>
+                                                </div>
+                                                <div class="province_image">
+                                                    <img src="images/vietnam-da-nang-my-khe-beach.png" width="100%" height="100%" alt="" />
+                                                </div>
+                                            </div>
+                                            <div class="col-6 right">
+                                                <div class="col-12 total">
+                                                    <img src="images/494432-weather_03.gif" width="100%" alt="" />
+                                                </div>
+                                                <div class="col-12 weather_info">
+                                                    <span class="col-3 weather_icon_humid">
+                                                        <i class="fa fa-tint" aria-hidden="true"></i>
+                                                    </span>
+                                                    <span class="col-9 weather_info">
+                                                        <p>20-30%</p>
+                                                    </span>
+                                                </div>
+                                                <div class="col-12 weather_info">
+                                                    <span class="col-3 weather_icon_hot">
+                                                        <i class="fa fa-thermometer-quarter" aria-hidden="true"></i>
+                                                    </span>
+                                                    <span class="col-9 weather_info">
+                                                        <p>
+                                                            24-16
+                                                            <sup>0</sup>C
+                                                        </p>
+                                                    </span>
+                                                </div>
+                                                <div class="col-12 weather_info">
+                                                    <span class="col-3 weather_icon_cool">
+                                                        <i class="fa fa-thermometer-full" aria-hidden="true"></i>
+                                                    </span>
+                                                    <span class="col-9 weather_info">
+                                                        <p>
+                                                            31-33
+                                                            <sup>0</sup>C
+                                                        </p>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 block">
+                                        <div class="col-12 info">
+                                            <div class="col-6 left">
+                                                <div class="province">
+                                                    <h4>Nha Trang</h4>
+                                                </div>
+                                                <div class="province_image">
+                                                    <img src="images/vietnam-da-nang-my-khe-beach.png" width="100%" height="100%" alt="" />
+                                                </div>
+                                            </div>
+                                            <div class="col-6 right">
+                                                <div class="col-12 total">
+                                                    <img src="images/494432-weather_03.gif" width="50%" alt="" />
+                                                </div>
+                                                <div class="col-12 weather_info">
+                                                    <span class="col-3 weather_icon_humid">
+                                                        <i class="fa fa-tint" aria-hidden="true"></i>
+                                                    </span>
+                                                    <span class="col-9 weather_info">
+                                                        <p>20-30%</p>
+                                                    </span>
+                                                </div>
+                                                <div class="col-12 weather_info">
+                                                    <span class="col-3 weather_icon_hot">
+                                                        <i class="fa fa-thermometer-quarter" aria-hidden="true"></i>
+                                                    </span>
+                                                    <span class="col-9 weather_info">
+                                                        <p>
+                                                            24-16
+                                                            <sup>0</sup>C
+                                                        </p>
+                                                    </span>
+                                                </div>
+                                                <div class="col-12 weather_info">
+                                                    <span class="col-3 weather_icon_cool">
+                                                        <i class="fa fa-thermometer-full" aria-hidden="true"></i>
+                                                    </span>
+                                                    <span class="col-9 weather_info">
+                                                        <p>
+                                                            31-33
+                                                            <sup>0</sup>C
+                                                        </p>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 block">
+                                        <div class="col-12 info">
+                                            <div class="col-6 left">
+                                                <div class="province">
+                                                    <h4>Nha Trang</h4>
+                                                </div>
+                                                <div class="province_image">
+                                                    <img src="images/vietnam-da-nang-my-khe-beach.png" width="100%" height="100%" alt="" />
+                                                </div>
+                                            </div>
+                                            <div class="col-6 right">
+                                                <div class="col-12 total">
+                                                    <img src="images/494432-weather_03.gif" width="50%" alt="" />
+                                                </div>
+                                                <div class="col-12 weather_info">
+                                                    <span class="col-3 weather_icon_humid">
+                                                        <i class="fa fa-tint" aria-hidden="true"></i>
+                                                    </span>
+                                                    <span class="col-9 weather_info">
+                                                        <p>20-30%</p>
+                                                    </span>
+                                                </div>
+                                                <div class="col-12 weather_info">
+                                                    <span class="col-3 weather_icon_hot">
+                                                        <i class="fa fa-thermometer-quarter" aria-hidden="true"></i>
+                                                    </span>
+                                                    <span class="col-9 weather_info">
+                                                        <p>
+                                                            24-16
+                                                            <sup>0</sup>C
+                                                        </p>
+                                                    </span>
+                                                </div>
+                                                <div class="col-12 weather_info">
+                                                    <span class="col-3 weather_icon_cool">
+                                                        <i class="fa fa-thermometer-full" aria-hidden="true"></i>
+                                                    </span>
+                                                    <span class="col-9 weather_info">
+                                                        <p>
+                                                            31-33
+                                                            <sup>0</sup>C
+                                                        </p>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="water" class="container-fluid tab-pane fade"></div>
+                            <div id="wind" class="container-fluid tab-pane fade"></div>
+                            <div id="temp" class="container-fluid tab-pane fade"></div>
+                            <div id="hum" class="container-fluid tab-pane fade"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-</div>
-@Html.Partial("~/Areas/AppCommon/Views/Shared/EditFormPartial.cshtml", new EditDataModel
-{
-    TableName = "vw_tb_SUNSIS_HCMUNRE_QLD_TinhDiemTrungBinh",
-    Id = "14",
-    MoreExp = "",
-    Layout = "editForm"
-})
-<div class="row">
-    <div class="col-lg-12">
-        <button id="TinhDiem" type="button" style="margin:5px 0;" class="btnSubmit validate btn blue btn-lg pull-right uppercase">Tính điểm</button>
+    <div id="statusWeather">
+        <ul id="bind-statusWeather"></ul>
     </div>
-</div>
-@*@Html.Partial("~/Areas/AppCommon/Views/Shared/EditFormPartial.cshtml", new EditDataModel
-{
-    TableName = "vw_tb_SUNSIS_HCMUNRE_Quyche_Lamtron_ManHinh",
-    Id = "1084",
-    MoreExp = "",
-    Layout = "editForm"
-})*@
-
-<div id="DiemTB">
-    <div id="DiemTB_HocKy">
-        @Html.Partial("~/Areas/AppCommon/Views/Shared/DataTablePartial.cshtml", new DataTableModel
-        {
-            TableName = "vw_tb_SUNSIS_HCMUNRE_QLD_DiemTrungBinh",
-            MoreExp = "",
-            Layout = "table",
-            UseAjax = false,
-            ShowHeader = false
-        })
+    <div id="display-gas-weather">
+        <ul id="bind--gas-weather"></ul>
     </div>
-</div>
-<div id="DiemTB_NamHoc">
-    @Html.Partial("~/Areas/AppCommon/Views/Shared/DataTablePartial.cshtml", new DataTableModel
-    {
-        TableName = "vw_tb_SUNSIS_HCMUNRE_QLD_DiemTrungBinh_NamHoc",
-        MoreExp = "",
-        Layout = "table",
-        UseAjax = false,
-        ShowHeader = false
-    })
-</div>
+    <!-- right -->
+    <!-- footer -->
+    <!--<div class="row footer">
+        <button onclick="topFunction()" id="myBtn" title="Go to top" style="display: block;">
+            <i class="fa fa-arrow-up" aria-hidden="true"></i>
+        </button>
+        <div class="col-sm-2 footer_left">
+            <img src="images/n-cem-logo.jpg" alt="" height="100">
+        </div>
+        <div class="col-sm-6 footer_mid">
+            <p>
+                Cơ quan chủ quản:
+                <span>TRUNG TÂM QUAN TRẮC MÔI TRƯỜNG MIỀN BẮC - TỔNG CỤC MÔI TRƯỜNG</span>
+            </p>
+            <p>
+                Giấy phép số:
+                <span>Số 52/GP-TTĐT do cục phát thanh, Truyền hình và Thông tin điện thử cấp ngày 03/06/2016</span>
+            </p>
+            <p>
+                Chịu trách nhiệm chính:
+                <span>Ông Nguyễn Văn Thuỳ</span>
+            </p>
+            <p>
+                Địa chỉ:
+                <span>Số 556 Nguyễn Văn Cừ, Long Biên, Hà Nội, Việt Nam</span>
+            </p>
+            <p>
+                Điện thoại:
+                <span>+84 04 3577 1816</span> - Fax:
+                <span>+84 04 3577 1855</span> -Email:
+                <span> webmaster@cem.gov.vn</span>
+            </p>
+        </div>
+        <div class="col-sm-4 footer_right">
+            <h4>Liên kết web</h4>
+            <div class="form-group">
+                <select class="form-control" name="" id="" onchange="location = this.value; ">
+                    <option value="#">Mạng liên kết</option>
+                    <option value="http://www.monre.gov.vn/">Bộ tài nguyên &amp; môi trường</option>
+                    <option value="http://dwrm.gov.vn/">Cục quản lý nước</option>
+                </select>
+                <div class="col-12 social_network">
+                    <span class="col-4">
+                        <a href="#">
+                            <img src="images/Social-Icons-PNG-Photos-420x228_02.gif" alt="" width="100%">
+                        </a>
+                    </span>
+                    <span class="col-4">
+                        <a href="#">
+                            <img src="images/Social-Icons-PNG-Photos-420x228_05.gif" alt="" width="100%">
+                        </a>
+                    </span>
+                    <span class="col-4">
+                        <a href="#">
+                            <img src="images/Social-Icons-PNG-Photos-420x228_09.gif" alt="" width="100%">
+                        </a>
+                    </span>
+                </div>
             </div>
-<div id="DiemTB_NienKhoa">
-    @Html.Partial("~/Areas/AppCommon/Views/Shared/DataTablePartial.cshtml", new DataTableModel
-    {
-        TableName = "vw_tb_SUNSIS_HCMUNRE_QLD_DiemTrungBinh_NienKhoa",
-        MoreExp = "",
-        Layout = "table",
-        UseAjax = false,
-        ShowHeader = false
-    })
-</div>
-            </div>
-            </div>
-<style>
-    /*#DiemTB_HocKy, #DiemTB_NienKhoa, #DiemTB_NamHoc{
-            display:none;
-        }*/
-</style>
-<script type="text/javascript">
-    var idSelected = [];
-    function DiemTrungBinhDaTa() {
-        var nienkhoa_id = $('select[name*="NienKhoa_Id"]').val();
-        var lophoc_id = $('select[name*="LopHoc_Id"]').val();
-        var hocky_id = $('select[name*="HocKy_Id"]').val();
-        var sinhvien_id = $('select[name*="Sinhvien_Id"]').val();
-        var namhoc = $('input[name="schoolyear"]').val();
-        if (lophoc_id == "-1") {
-            lophoc_id = null;
-        }
-        if (hocky_id == "-1") {
-            hocky_id = null;
-        }
-        if (sinhvien_id == "-1") {
-            sinhvien_id = null;
-        }
-        var valueDataToSend = $('input[name=radio]:checked').val();
-        if (valueDataToSend == 'Tính điểm trung bình học kỳ') {
-            var dataToSend = {
-                text: 'uTISRxj9FJY3h+yNENOhsV/mKDi6X6a5wRJ9A0HX6Ayn+7xZAyxnS++6nB1JIsZp7r8B9wfm+navURdWG+3OqKlyruR0dbtbbLlqs1cHg8KizKTOebsiEm1+SjdW2OWd8N3yLISiwRKjL/w6kUvKh0RedsGd3Q98',
-                paramvalue: nienkhoa_id + ',' + lophoc_id + ',' + hocky_id + ',' + sinhvien_id
-            };
-        }
-        else if (valueDataToSend == 'Tính điểm trung bình năm học') {
-            var dataToSend = {
-                text: 'uTISRxj9FJY3h+yNENOhsV/mKDi6X6a5wRJ9A0HX6Ayn+7xZAyxnS++6nB1JIsZp7r8B9wfm+navURdWG+3OqKlyruR0dbtbbLlqs1cHg8K1IpEc8BmsAAOOWuDb2q5QhL7SkWgQx/11pSuol5mCDfmkl4/7D99Kd0vHwai9lpk=',
-                paramvalue: nienkhoa_id + ',' + lophoc_id + ',' + namhoc
-            };
-        }
-        else if (valueDataToSend == 'Tính điểm trung bình toàn khóa') {
-            var dataToSend = {
-                text: 'uTISRxj9FJY3h+yNENOhsV/mKDi6X6a5wRJ9A0HX6Ayn+7xZAyxnS++6nB1JIsZp7r8B9wfm+navURdWG+3OqKlyruR0dbtbbLlqs1cHg8K1IpEc8BmsAFjv1NUZia1TOohRVYemVgq5Q3fJlkESKQF03+zuclrC4bNZzMPWx5s=',
-                paramvalue: nienkhoa_id + ',' + lophoc_id
-            };
-        }
-        $.post({
-            module: "",
-            url: "/AppCommon/Utilities/RunSql",
-            showMask: true,
-            async: false,
-            data: dataToSend,
-            success: function () {
-               //
-            }
-        })
-    }
-    $('#TinhDiem').click(function (e) {
-        e.preventDefault();
-        DiemTrungBinhDaTa();
-        //var nienkhoa_id = $('select[name*="NienKhoa_Id"]').val();
-        //var lophoc_id = $('select[name*="LopHoc_Id"]').val();
-        //var hocky_id = $('select[name*="HocKy_Id"]').val();
-        //var sinhvienid = $('select[name*="Sinhvien_Id"]').val();
-        //if (lophoc_id == "-1") {
-        //    lophoc_id = null;
-        //}
-        //if (hocky_id == "-1") {
-        //    hocky_id = null;
-        //}
-        //if (sinhvienid == "-1") {
-        //    sinhvienid= null;
-        //}
-        //var namhoc = null;
-        //var parameters = '{nienkhoaId:' + nienkhoa_id + ',lophocId:' + lophoc_id + ',hockyId:' + hocky_id + ',sinhvienId:' + sinhvienid +'}';
-        //DiemTrungBinhDaTa();
-        //$.ajax({
-        //    url: '/SUNISDiemTrungBinh/TinhDiemTrungBinh',
-        //    type: 'POST',
-        //    data: parameters,
-        //    contentType: "application/json; charset=utf-8",
-        //    dataType: "json",
-        //    success: function (response) {
 
-        //    }
-        //})
-    })
-    //Radio button on change event
-        $(document).ready(function () {
-        $('input[name*="schoolyear"]').attr('disabled', true);
-        $('input:radio[name=radio]').change(function () {
-            if (this.value == 'Tính điểm trung bình học kỳ') {
-                $('select[name*="HocKy_Id"]').attr('disabled', false);
-                $('input[name*="schoolyear"]').attr('disabled', true);
-            }
-            else if (this.value == 'Tính điểm trung bình năm học') {
-                $('select[name*="HocKy_Id"]').attr('disabled', true);
-                $('input[name*="schoolyear"]').attr('disabled', false);
-                @*$('#DiemTB').load('@Url.Action("PartialDiem", "SUNIS")');*@
-            }
-            else if (this.value == 'Tính điểm trung bình toàn khóa') {
-                $('select[name*="HocKy_Id"]').attr('disabled', true);
-                $('input[name*="schoolyear"]').attr('disabled', true);
-            }
-        });
-        $("#vw_tb_SUNSIS_HCMUNRE_QLD_TinhDiemTrungBinh-btn-cancel,#vw_tb_SUNSIS_HCMUNRE_QLD_TinhDiemTrungBinh-btn-update,#btExport_vw_tb_SUNSIS_HCMUNRE_QLD_DiemTrungBinh,#btnFullRow_vw_tb_SUNSIS_HCMUNRE_QLD_DiemTrungBinh").remove();
+        </div>
+    </div>-->
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="jquery/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="jquery//jquery-1.12.4.min.js"></script>
+    <script src="js/ace-responsive-menu.js" type="text/javascript"></script>
+    <script src="popper/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
 
-    })
+    <!-- Leaflet api -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.3/dist/leaflet.css" integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
+          crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.3.3/dist/leaflet.js" integrity="sha512-tAGcCfR4Sc5ZP5ZoVz0quoZDYX5aCtEm/eu1KhSLj2c9eFrylXZknQYmxUssFaVJKvvc0dJQixhGjG2yXWiV9Q=="
+            crossorigin=""></script>
 
-</script>
+    <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.2.0/leaflet-omnivore.min.js'></script>
+
+    <!-- OSMBuildings -->
+    <script src="js/osmbuildings/OSMBuildings-Leaflet.js"></script>
+
+    <script src="js/kml.js"></script>
+    <script src="js/tinh.js"></script>
+    <script src="js/map.js"></script>
+
+    <script src="js/leaflet-velocity.js"></script>
+    <script src="js/wind.js"></script>
+
+
+    <script src="js/owm/leaflet/Permalink.js"></script>
+    <script src="js/owm/leaflet/Permalink.Layer.js"></script>
+    <script src="js/owm/leaflet/Permalink.Overlay.js"></script>
+    <script src="js/owm/leaflet/leaflet-openweathermap.js"></script>
+
+    <!--<script src="js/owm/leaflet/leaflet-languageselector.js"></script>-->
+    <script src="js/owm/files/map_i18n.js"></script>
+    <script src="js/owm/files/map.js"></script>
+
+    <!-- google map api -->
+    <!--<script src="js/readjson.js"></script>
+    <script src="js/createMarker.js"></script>
+    <script src="js/googlmap.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCxRNWiE-35ttOI7wzB52z7EgZaCIH6U7k&amp;callback=initMap"></script>
+    -->
+    <script src="js/custom.js"></script>
+    <!-- hightchart lib -->
+    <script src="lib/Highcharts-6.1.1/code/highcharts.js"></script>
+    <script src="lib/Highcharts-6.1.1/code/highcharts-more.js"></script>
+    <script src="lib/Highcharts-6.1.1/code/modules/exporting.js"></script>
+    <script src="lib/Highcharts-6.1.1/code/modules/export-data.js"></script>
+    <script src="lib/Highcharts-6.1.1/code/modules/series-label.js"></script>
+    <!-- custom page js -->
+    <!-- chart -->
+    <script src="js/water_chart.js"></script>
+    <script src="js/wind_chart.js"></script>
+    <script src="js/temp_chart.js"></script>
+    <script src="js/hum_chart.js"></script>
+
+    <script src="js/QTMT/tram.js"></script>
+</body>
+
+</html>
