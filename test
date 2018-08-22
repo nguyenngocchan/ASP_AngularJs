@@ -1,1 +1,66 @@
 https://www.c-sharpcorner.com/article/calling-a-c-sharp-function-with-jquery-ajax-in-asp-net-mvc/
+using Modules.Common.Data;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+namespace Modules.WebApp.Controllers
+{
+    public class SUNISDiemTrungBinhController : Controller
+    {
+        // GET: SUNISDiemTrungBinh
+        public ActionResult Index()
+        {
+            return View();
+        }
+        public void TinhDiemTrungBinh(int nienkhoaId, int lophocId, int namhoc, int chotdiem)
+        {
+            var a = namhoc.ToString();
+            //DataTable tbDiemTrungBinh = new DataTable("tb_SUNSIS_HCMUNRE_QLD_DiemTrungBinh");
+            //DataTable tbdiem = new DataTable();
+            //DataAccessContants.DataProvider.FillTable(ref tbdiem, "select * from tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc lmh inner join tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc_DSSinhVien diem on lmh.ID=diem.Lop_MonHoc" +
+            //" inner join tb_SUNSIS_HCMUNRE_QLCTDT_MH mh on lmh.MonHoc=mh.ID" +
+            //" inner join tb_SUNSIS_HCMUNRE_QLLH_LH lh on lh.ID=lmh.Lophoc_Id" +
+            //" inner join tb_SUNSIS_HCMUNRE_QLCTDT_NK ctdtnk on lh.ayversion=ctdtnk.ID" +
+            //" inner join tb_SUNSIS_HCMUNRE_Danhmuc_NienKhoa nk on nk.ID=ctdtnk.ayyear" +
+            //" inner join tb_SUNSIS_HCMUNRE_DM_HK hk on hk.ID=lmh.HocKy" +
+            //" join tb_SUNSIS_HCMUNRE_Quyche_Version qc on qc.id=nk.Quyche_Id" +
+            //" join tb_SUNSIS_HCMUNRE_Quyche_Chungchi cc on qc.Id=cc.Quyche_Id" +
+            //" where lh.Id =" + lophocId + " and nk.ID =" + nienkhoaId + " and diem.SinhVien_ID=" + sinhvienId + " and lmh.HocKy=" + hockyId + " and diem.Lanhoc=1"+
+            //" and lmh.MonHoc in (select lmh.MonHoc from tb_SUNSIS_HCMUNRE_QLLH_LopMonHoc lmh where  lmh.MonHoc not in (select * from fnSplitString((SELECT Danhsach_Chungchi from tb_SUNSIS_HCMUNRE_Quyche_Chungchi cc where Quyche_Id = qc.Id), ';')))");
+            //foreach (DataRow datadiem in tbdiem.Rows)
+            //{
+            //    double dh10=(Convert.ToDouble(datadiem["Diem_TongKet"]))*(Convert.ToDouble(datadiem[""]));
+                
+
+
+
+            //}
+            //DataTable tb_SUNSIS_HCMUNRE_QLD_DiemTrungBinh = new DataTable("tb_SUNSIS_HCMUNRE_QLD_DiemTrungBinh");
+            //DataAccessContants.DataProvider.FillTable(ref tb_SUNSIS_HCMUNRE_QLD_DiemTrungBinh, "Select");
+
+            //DataTable tbTemp = new DataTable();
+            //DataAccessContants.DataProvider.FillTable(ref tbTemp, "Select");
+
+            ////Dung for de tinh, tinh xong gan vao 1 data
+
+            ////Update
+            //tb_SUNSIS_HCMUNRE_QLD_DiemTrungBinh.Rows[0]["DiemTB"] = 4.5;
+
+            ////Insert
+            //DataRow drnew = tb_SUNSIS_HCMUNRE_QLD_DiemTrungBinh.NewRow();
+            //tb_SUNSIS_HCMUNRE_QLD_DiemTrungBinh.Rows.Add(drnew);
+            //drnew["DiemTB"] = 4.5;
+            //drnew["DiemChu"] = "Năm";
+            //drnew["NgayTinh"] = DateTime.Now;
+
+            ////Luu du lieu
+
+            //DataAccessContants.DataProvider.SaveDataTableBulkCopy(tb_SUNSIS_HCMUNRE_QLD_DiemTrungBinh);
+
+        }
+    }
+}
