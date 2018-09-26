@@ -28,3 +28,27 @@ duyệt thêm sinh viên vào lớp đối vs sinh viên chưa đăng ký
 duyệt đăng ký
 
 danh muc
+npm install -g win-node-env
+npm install -S cross-env
+
+
+Tra cứu điểm=> quản lý đào tạo
+quản lý tkb=>qldt
+qlnk=>qlsv
+
+
+sub qlsv=> thông tin sinh viên
+
+danh mục đào tạo=> khoa,bộ môn=> Phòng ban,Khoa/Bộ môn=>Quản lý nhân sư
+
+
+quản lý nhân viên=> hồ sơ nhân sự
+
+
+dashboard =>trang chủ
+
+
+THời khóa biểu: cây: năm học => học kỳ=> đợt
+	-Thời khóa biểu dự kiến năm học => học kỳ=> đợt(đc hủy đăng ký môn nếu còn trong thời gian mở)
+	- Thời khóa biểu chính thức năm học, học kỳ
+bỏ đăng ký học
